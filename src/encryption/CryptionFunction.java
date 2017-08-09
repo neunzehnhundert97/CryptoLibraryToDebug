@@ -7,9 +7,9 @@ public abstract class CryptionFunction extends Function
 	// Attributes
 	private byte[] key;
 
-	public CryptionFunction(byte[] input, byte[] key, String output, int verbose)
+	public CryptionFunction(byte[] input, byte[] key, int verbose)
 	{
-		super(input, output, verbose);
+		super(input, verbose);
 		this.key = key;
 	}
 
