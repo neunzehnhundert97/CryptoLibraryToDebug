@@ -1,10 +1,13 @@
 package main;
 
-import miscFunctions.Misc;
+import miscFunctions.*;
+import hash.*;
 
 public class Main
 {
 	private static final int HELP_WIDTH = 18;
+	
+	public static String output;
 	
 	public static void main(String[] args)
 	{
@@ -102,6 +105,8 @@ public class Main
 					"ERROR: Please enter an algorithm after '-algorithm' or '-a' You choosed \" + algorithm + \" as an algorithm.");
 		}
 
+		output = "";
+		
 		// now start the algorithms
 		switch (algorithm.toLowerCase())
 		{
@@ -111,7 +116,7 @@ public class Main
 			break;
 		case "sha256":
 			Misc.printHeadLine("SHA256");
-			// TODO open sha256
+			(new SHA2(input.getBytes(), SHA2.SHA256, verboseLevel)).digest();
 			break;
 		case "sha384":
 			Misc.printHeadLine("SHA384");
@@ -122,6 +127,8 @@ public class Main
 			// TODO open sha512
 			break;
 		}
+		
+		System.out.println(output);
 
 		System.exit(0);
 	}
