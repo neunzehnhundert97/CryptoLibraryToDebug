@@ -4,7 +4,8 @@ import miscFunctions.Misc;
 
 public class Main
 {
-
+	private static final int HELP_WIDTH = 18;
+	
 	public static void main(String[] args)
 	{
 
@@ -128,17 +129,17 @@ public class Main
 	private static void helpfunction_short()
 	{
 		Misc.printHeadLine("HELP - SHORTCUTS");
-		System.out.println(String.format("%1$-20s %2$s", "-a [ALGORITHM]", "Set the algorithm which should be executed."));
-		System.out.println(String.format("%1$-20s %2$s", "-d", "Let the algorithm decrypt."));
-		System.out.println(String.format("%1$-20s %2$s", "-e", "let the algorithm encrypt"));
-		System.out.println(String.format("%1$-20s %2$s", "-h", "Opens the help Page with short commands."));
-		System.out.println(String.format("%1$-20s %2$s", "-i [INPUT]", "Give the algorithm its input. In Cryptographic algorithms input is the plaintext."));
-		System.out.println(String.format("%1$-20s %2$s", "-IO", "Enter the interactive IO mode. (You will enter theis mode when you start the programm without arguments."));
-		System.out.println(String.format("%1$-20s %2$s", "-k [KEY]", "Give the cryptographic algorithm the key"));
-		System.out.println(String.format("%1$-20s %2$s", "-v [LEVEL]", "Set the verbose Level."));
-		System.out.println(String.format("%1$-20s %2$s", "", "Level [0]: Quiet - Only output of algorithm."));
-		System.out.println(String.format("%1$-20s %2$s", "", "Level [1]: Informative  - Prints basic intermediate Values."));
-		System.out.println(String.format("%1$-20s %2$s", "", "Level [2]: Excessive - Prints all intermediate values of this algorithm."));
-		System.out.println(String.format("%1$-20s %2$s", "", "level [3]: Inheritive - Prints all intermediate values of this and called algorithms."));
+		System.out.printf("%1$-" + HELP_WIDTH + "s %2$s", "-a [ALGORITHM]", "Set the algorithm which should be executed.\n");
+		System.out.printf("%1$-" + HELP_WIDTH + "s %2$s", "-d", "Let the algorithm decrypt.\n");
+		System.out.printf("%1$-" + HELP_WIDTH + "s %2$s", "-e", "let the algorithm encrypt.\n");
+		System.out.printf("%1$-" + HELP_WIDTH + "s %2$s", "-h", "Opens the help Page with short commands.\n");
+		System.out.printf("%1$-" + HELP_WIDTH + "s %2$s", "-i [INPUT]", "Give the algorithm its input. In Cryptographic algorithms input is the plaintext.\n");
+		System.out.printf("%1$-" + HELP_WIDTH + "s %2$s", "-IO", "Enter the interactive IO mode. (You will enter theis mode when you start the programm without arguments.\n");
+		System.out.printf("%1$-" + HELP_WIDTH + "s %2$s", "-k [KEY]", "Give the cryptographic algorithm the key.\n");
+		System.out.printf("%1$-" + HELP_WIDTH + "s %2$s", "-v [LEVEL]", "Set the verbose Level.\n");
+		System.out.printf("%1$-" + HELP_WIDTH + "s %2$s", "", "Level [0]: Quiet - Only output of algorithm.\n");
+		System.out.printf("%1$-" + HELP_WIDTH + "s %2$s", "", "Level [1]: Informative  - Prints basic intermediate Values.\n");
+		System.out.printf("%1$-" + HELP_WIDTH + "s %2$s", "", "Level [2]: Excessive - Prints all intermediate values of this algorithm.\n");
+		System.out.printf("%1$-" + HELP_WIDTH + "s %2$s", "", "level [3]: Inheritive - Prints all intermediate values of this and called algorithms.\n");
 	}
 }
