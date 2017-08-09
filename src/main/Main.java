@@ -1,12 +1,13 @@
 package main;
 
+import miscFunctions.Misc;
+
 public class Main {
 
 	public static void main(String[] args) {
 
 		if (args.length == 0) {
 			InteractiveIO iio = new InteractiveIO();
-			iio.controller();
 		} else {
 			doAlgorithm(args);
 		}
@@ -17,21 +18,45 @@ public class Main {
 		String algorithm = null;
 		String input = null;
 		int verboseLevel = -1;
+		String key = null;
+		boolean de_en_cryption = false; // false = decryption --- true = encryption 
 				
 		for (int i = 0; i < args.length; i++) {
 			switch(args[i]) {
 			case "-a":
 			case "-algorithm":
-				algorithm = args[i+1];
+				algorithm = args[++i];
 				break;
 			case "-i":
 			case "-input":
-				input = args[i+1];
+				input = args[++i];
 				break;
 			case "-v":
 			case "-verbose":
-				verboseLevel = Integer.valueOf(args[i+1]);
+				verboseLevel = Integer.valueOf(args[++i]);
 				break;
+			case "-k":
+			case "-key":
+				key = args[++i];
+				break;
+			case "-d":
+			case "-decrypt":
+				de_en_cryption = false;
+				break;
+			case "-e":
+			case "-encrypt":
+				de_en_cryption = true;
+				break;
+			case "-h":
+			case "-help":
+				helpfunction();
+				System.exit(0);
+				break;
+			case "-IO":
+			case "-io":
+			case "-Interactive":
+				InteractiveIO iio = new InteractiveIO();
+				
 			}
 		}
 		
@@ -54,9 +79,36 @@ public class Main {
 			System.exit(-1);
 		}
 		
-		//start the algorithms
 		if (algorithm.startsWith("-")) {
 			System.out.println("ERROR: Please enter an algorithm after '-algorithm' or '-a' You choosed \" + algorithm + \" as an algorithm.");
 		}
+		
+		
+		//now start the algorithms
+		switch(algorithm.toLowerCase()) {
+		case "sha224":
+			Misc.printHeadLine("SHA224");
+			//TODO open sha224
+			break;
+		case "sha256":
+			Misc.printHeadLine("SHA256");
+			//TODO open sha256
+			break;
+		case "sha384":
+			Misc.printHeadLine("SHA384");
+			//TODO open sha384
+			break;
+		case "sha512":
+			Misc.printHeadLine("SHA512");
+			//TODO open sha512
+			break;
+		}
+		
+		System.exit(0);
+	}
+
+	private static void helpfunction() {
+		// TODO Auto-generated method stub
+		
 	}
 }

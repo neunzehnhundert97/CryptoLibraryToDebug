@@ -4,10 +4,12 @@ import java.util.Scanner;
 
 public class InteractiveIO {
 	public InteractiveIO() {
-
+		controller();
 	}
 
-	public void controller() {
+	private void controller() {
 		Scanner scan = new Scanner(System.in);
+		
+		scan.close();
 	}
 }
