@@ -90,6 +90,7 @@ public class InteractiveIO
 					break;
 				case "n":
 					correctInput = true;
+					input = "";
 					break;
 				default:
 					yn = null;
@@ -125,14 +126,21 @@ public class InteractiveIO
 
 			switch (choice)
 			{
-			case "sha_2_224":
+			case "start_sha_2_224":
 				command[1] = "sha224";
-			case "sha_2_256":
+				break;
+			case "start_sha_2_256":
 				command[1] = "sha256";
-			case "sha_2_384":
+				break;
+			case "start_sha_2_384":
 				command[1] = "sha384";
-			case "sha_2_512":
+				break;
+			case "start_sha_2_512":
 				command[1] = "sha512";
+				break;
+			default:
+				System.out.println("ERROR: choice cant be resolved.");
+				break;
 			}
 
 			if (input != null)

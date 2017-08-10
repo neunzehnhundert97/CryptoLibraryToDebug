@@ -28,11 +28,6 @@ public class Main
 		int verboseLevel = -1;
 		String key = null;
 		boolean de_en_cryption = false; // false = decryption --- true = encryption
-		
-		System.out.println("Übergebene args:");
-		for (int i = 0; i < args.length; i++) {
-			System.out.println("command[" + i + "] = " + args[i]);
-		}
 
 		for (int i = 0; i < args.length; i++)
 		{
@@ -45,6 +40,11 @@ public class Main
 			case "-i":
 			case "-input":
 				input = args[++i];
+				
+				if (input == null) {
+					input = "";
+				}
+				
 				break;
 			case "-v":
 			case "-verbose":
