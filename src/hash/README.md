@@ -1,4 +1,4 @@
-# Hashfunctions
+# Hash Functions
 
 Please note that due to Java's limitations none of the implemented algorithms will work for any input over about 2^64-1 bytes.
 It may be possible to overcome this limitation, but we do not assume it necessary.
