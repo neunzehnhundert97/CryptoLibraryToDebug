@@ -38,6 +38,11 @@ public class Main
 		int verboseLevel = -1;
 		String key = null;
 		boolean de_en_cryption = false; // false = decryption --- true = encryption
+		
+		System.out.println("Übergebene args:");
+		for (int i = 0; i < args.length; i++) {
+			System.out.println("command[" + i + "] = " + args[i]);
+		}
 
 		for (int i = 0; i < args.length; i++)
 		{
@@ -84,16 +89,12 @@ public class Main
 		// check mandatory inputs
 		if (algorithm == null)
 		{
-			System.out.println("ERROR: Please enter an algorithm with '-algorithm' or '-a'.");
+			System.out.println("ERROR: Please enter an algorithm after '-algorithm' or '-a' You choosed " + algorithm
+					+ " as an algorithm.");
 			System.exit(-1);
 		}
 
 		// check input conformity
-		if (algorithm.charAt(0) == '-')
-		{
-			System.out.println("ERROR: Please enter an algorithm after '-algorithm' or '-a' You choosed " + algorithm
-					+ " as an algorithm.");
-		}
 		if (verboseLevel == -1)
 		{
 			System.out.println(
@@ -110,7 +111,7 @@ public class Main
 		if (algorithm.startsWith("-"))
 		{
 			System.out.println(
-					"ERROR: Please enter an algorithm after '-algorithm' or '-a' You choosed \" + algorithm + \" as an algorithm.");
+					"ERROR: Please enter an algorithm after '-algorithm' or '-a' You choosed " + algorithm + " as an algorithm.");
 		}
 
 		output = "";

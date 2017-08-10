@@ -67,7 +67,7 @@ public class InteractiveIO
 			String yn = null;
 			boolean correctInput = false;
 			String input = null;
-			int verboseLevel = -1;
+			String verboseLevel = null;
 			String[] command = new String[6];
 
 			// we are in the sha_2 family
@@ -81,7 +81,11 @@ public class InteractiveIO
 				{
 				case "y":
 					System.out.println("Please enter the input:");
-					input = scan.nextLine();
+
+					while (!scan.hasNext())
+					{
+					}
+					input = scan.next();
 					correctInput = true;
 					break;
 				case "n":
@@ -98,23 +102,26 @@ public class InteractiveIO
 			correctInput = false;
 			while (!correctInput)
 			{
-				verboseLevel = scan.nextInt();
+				while (!scan.hasNext())
+				{
+				}
+				verboseLevel = scan.next();
 
-				if (verboseLevel >= 0 || verboseLevel <= 3)
+				if ((Integer.parseInt(verboseLevel)) >= 0 || (Integer.parseInt(verboseLevel)) <= 3)
 				{
 					correctInput = true;
 				}
 				else
 				{
 					System.out.println("Wrong input. Please try again.");
-					verboseLevel = -1;
+					verboseLevel = null;
 				}
 			}
 
 			// now start the algorithm
 			command[0] = "-a";
 			command[2] = "-v";
-			command[3] = verboseLevel + "";
+			command[3] = verboseLevel;
 
 			switch (choice)
 			{
@@ -138,7 +145,7 @@ public class InteractiveIO
 				command[4] = "";
 				command[5] = "";
 			}
-			
+
 			Main.doAlgorithm(command);
 		}
 
