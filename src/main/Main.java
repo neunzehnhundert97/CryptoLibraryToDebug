@@ -39,12 +39,23 @@ public class Main
 				break;
 			case "-i":
 			case "-input":
-				input = args[++i];
-				
-				if (input == null) {
+				input = args[i + 1];
+
+				if (input == null)
+				{
 					input = "";
 				}
-				
+
+				// check for input string with blanks
+				for (int x = i + 2; x < args.length; x++)
+				{
+					if(! args[x].startsWith("-")) {
+						input = input + " " + args[x];
+					}else {
+						break;
+					}
+				}
+
 				break;
 			case "-v":
 			case "-verbose":
@@ -100,8 +111,8 @@ public class Main
 
 		if (algorithm.startsWith("-"))
 		{
-			System.out.println(
-					"ERROR: Please enter an algorithm after '-algorithm' or '-a' You choosed " + algorithm + " as an algorithm.");
+			System.out.println("ERROR: Please enter an algorithm after '-algorithm' or '-a' You choosed " + algorithm
+					+ " as an algorithm.");
 		}
 
 		StringBuilder output = new StringBuilder();
