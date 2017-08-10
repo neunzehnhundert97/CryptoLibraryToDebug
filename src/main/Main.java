@@ -19,7 +19,13 @@ public class Main
 		}
 		else
 		{
-			doAlgorithm(args);
+			try {
+			doAlgorithm(args);}
+			catch(Exception e)
+			{
+				System.out.println(output);
+				e.printStackTrace();
+			}
 		}
 	}
 

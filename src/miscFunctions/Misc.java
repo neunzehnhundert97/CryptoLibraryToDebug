@@ -6,7 +6,7 @@ public class Misc
 	public static void printHeadLine(String s)
 	{
 		System.out.println();
-		
+
 		if (s != null)
 		{
 			int sLength = s.length() + 2;
@@ -19,8 +19,11 @@ public class Misc
 			{
 				System.out.print("-");
 			}
-		}else {
-			for (int i = 0; i < 80; i++) {
+		}
+		else
+		{
+			for (int i = 0; i < 80; i++)
+			{
 				System.out.print("-");
 			}
 		}
@@ -49,7 +52,7 @@ public class Misc
 		System.out.println("	                                                     and Pascal Gimmler");
 		Misc.printHeadLine(null);
 	}
-	
+
 	public static byte[] getBytes(int[] array)
 	{
 		byte[] bytes = new byte[array.length * 4];
@@ -100,8 +103,8 @@ public class Misc
 
 		for (int x = 0; x < ints.length / 2; ++x)
 		{
-			longs[x] = ((long)ints[2 * x]) << 32;
-			longs[x] |= ints[2 * x + 1];
+			longs[x] = Integer.toUnsignedLong(ints[2 * x]) << 32;
+			longs[x] |= Integer.toUnsignedLong(ints[2 * x + 1]);
 		}
 
 		return longs;
