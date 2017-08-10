@@ -9,13 +9,13 @@ import org.junit.Test;
 public class SHA2_Test
 {
 
-	@Test
+	//@Test
 	public final void testSHA224() throws NoSuchAlgorithmException
 	{
 		System.out.println("Test SHA224");
 		MessageDigest shaCor = MessageDigest.getInstance("SHA-224");
 		
-		for (int size = 0; size < 500; ++size)
+		for (int size = 500; size < 1000; ++size)
 		{
 			System.out.println("Size: "+size);
 			byte[] input = new byte[size];
@@ -33,13 +33,13 @@ public class SHA2_Test
 		}
 	}
 	
-	@Test
+	//@Test
 	public final void testSHA256() throws NoSuchAlgorithmException
 	{
 		System.out.println("Test SHA256");
 		MessageDigest shaCor = MessageDigest.getInstance("SHA-256");
 		
-		for (int size = 0; size < 500; ++size)
+		for (int size = 500; size < 1000; ++size)
 		{
 			System.out.println("Size: "+size);
 			byte[] input = new byte[size];
@@ -63,7 +63,7 @@ public class SHA2_Test
 		System.out.println("Test SHA384");
 		MessageDigest shaCor = MessageDigest.getInstance("SHA-384");
 		
-		for (int size = 0; size < 500; ++size)
+		for (int size = 500; size < 1000; ++size)
 		{
 			System.out.println("Size: "+size);
 			byte[] input = new byte[size];
@@ -81,13 +81,13 @@ public class SHA2_Test
 		}
 	}
 	
-	@Test
+	//@Test
 	public final void testSHA512() throws NoSuchAlgorithmException
 	{
 		System.out.println("Test SHA512");
 		MessageDigest shaCor = MessageDigest.getInstance("SHA-512");
 		
-		for (int size = 0; size < 500; ++size)
+		for (int size = 500; size < 1000; ++size)
 		{
 			System.out.println("Size: "+size);
 			byte[] input = new byte[size];

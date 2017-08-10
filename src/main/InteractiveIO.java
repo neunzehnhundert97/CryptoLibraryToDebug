@@ -46,12 +46,102 @@ public class InteractiveIO
 			case "overview":
 				choice = this.overview();
 				break;
+			case "start_sha_2_224":
+			case "start_sha_2_256":
+			case "start_sha_2_384":
+			case "start_sha_2_512":
+				start_algorithms(choice);
+				choice = "overview";
 			default:
 				scan.close();
 				System.out.println("ERROR: Something went dramatically wrong. Please report this error.");
 				System.exit(-1);
 			}
 		}
+	}
+
+	private void start_algorithms(String choice)
+	{
+		if (choice.startsWith("start_sha_2_"))
+		{
+			String yn = null;
+			boolean correctInput = false;
+			String input = null;
+			int verboseLevel = -1;
+			String[] command = new String[6];
+
+			// we are in the sha_2 family
+			System.out.println("Do you want a input? (y/n)");
+
+			while (!correctInput)
+			{
+				yn = scan.next();
+
+				switch (yn)
+				{
+				case "y":
+					System.out.println("Please enter the input:");
+					input = scan.nextLine();
+					correctInput = true;
+					break;
+				case "n":
+					correctInput = true;
+					break;
+				default:
+					yn = null;
+					System.out.println("Wrong input. Please try again.");
+					break;
+				}
+			}
+			System.out.println("Choose your verbose Level (0-3):");
+
+			correctInput = false;
+			while (!correctInput)
+			{
+				verboseLevel = scan.nextInt();
+
+				if (verboseLevel >= 0 || verboseLevel <= 3)
+				{
+					correctInput = true;
+				}
+				else
+				{
+					System.out.println("Wrong input. Please try again.");
+					verboseLevel = -1;
+				}
+			}
+
+			// now start the algorithm
+			command[0] = "-a";
+			command[2] = "-v";
+			command[3] = verboseLevel + "";
+
+			switch (choice)
+			{
+			case "sha_2_224":
+				command[1] = "sha224";
+			case "sha_2_256":
+				command[1] = "sha256";
+			case "sha_2_384":
+				command[1] = "sha384";
+			case "sha_2_512":
+				command[1] = "sha512";
+			}
+
+			if (input != null)
+			{
+				command[4] = "-i";
+				command[5] = input;
+			}
+			else
+			{
+				command[4] = "";
+				command[5] = "";
+			}
+			
+			Main.doAlgorithm(command);
+		}
+
 	}
 
 	private String overview()
@@ -74,16 +164,12 @@ public class InteractiveIO
 			switch (choice)
 			{
 			case "c":
-				// scan.close();
 				return "cryptoAlgorithms";
 			case "h":
-				// scan.close();
 				return "hashAlgorithms";
 			case "m":
-				// scan.close();
 				return "miscAlgorithms";
 			case "q":
-				// scan.close();
 				return "quit";
 			default:
 				choice = null;
@@ -145,13 +231,13 @@ public class InteractiveIO
 			switch (choice)
 			{
 			case "1":
-				return "start_sha224";
+				return "start_sha_2_224";
 			case "2":
-				return "start_sha256";
+				return "start_sha_2_256";
 			case "3":
-				return "start_sha384";
+				return "start_sha_2_384";
 			case "4":
-				return "start_sha512";
+				return "start_sha_2_512";
 			case "b":
 				return "overview";
 			default:
@@ -191,7 +277,7 @@ public class InteractiveIO
 		}
 
 	}
-	
+
 	private void printLogo()
 	{
 		System.out.println();
