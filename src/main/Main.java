@@ -39,11 +39,21 @@ public class Main
 				break;
 			case "-i":
 			case "-input":
-				input = args[++i];
+				input = args[i + 1];
 
 				if (input == null)
 				{
 					input = "";
+				}
+
+				// check for input string with blanks
+				for (int x = i + 2; x < args.length; x++)
+				{
+					if(! args[x].startsWith("-")) {
+						input = input + " " + args[x];
+					}else {
+						break;
+					}
 				}
 
 				break;
