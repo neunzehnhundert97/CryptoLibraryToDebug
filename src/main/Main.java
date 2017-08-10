@@ -112,7 +112,7 @@ public class Main
 		{
 		case "sha224":
 			Misc.printHeadLine("SHA224");
-			// TODO open sha224
+			(new SHA2(input.getBytes(), SHA2.SHA224, verboseLevel)).digest();
 			break;
 		case "sha256":
 			Misc.printHeadLine("SHA256");
@@ -120,11 +120,11 @@ public class Main
 			break;
 		case "sha384":
 			Misc.printHeadLine("SHA384");
-			// TODO open sha384
+			(new SHA2(input.getBytes(), SHA2.SHA384, verboseLevel)).digest();
 			break;
 		case "sha512":
 			Misc.printHeadLine("SHA512");
-			// TODO open sha512
+			(new SHA2(input.getBytes(), SHA2.SHA512, verboseLevel)).digest();
 			break;
 		}
 		
