@@ -15,11 +15,11 @@ public class SHA2_Test
 		System.out.println("Test SHA224");
 		MessageDigest shaCor = MessageDigest.getInstance("SHA-224");
 		
-		for (int size = 0; size < 200; ++size)
+		for (int size = 0; size < 500; ++size)
 		{
 			System.out.println("Size: "+size);
 			byte[] input = new byte[size];
-			for (int x = 0; x < 5; ++x)
+			for (int x = 0; x < 2; ++x)
 			{
 				//System.out.print(x+" ");
 				for(int i = 0;i<size;++i)
@@ -39,11 +39,11 @@ public class SHA2_Test
 		System.out.println("Test SHA256");
 		MessageDigest shaCor = MessageDigest.getInstance("SHA-256");
 		
-		for (int size = 0; size < 200; ++size)
+		for (int size = 0; size < 500; ++size)
 		{
 			System.out.println("Size: "+size);
 			byte[] input = new byte[size];
-			for (int x = 0; x < 5; ++x)
+			for (int x = 0; x < 2; ++x)
 			{
 				//System.out.print(x+" ");
 				for(int i = 0;i<size;++i)
@@ -63,11 +63,11 @@ public class SHA2_Test
 		System.out.println("Test SHA384");
 		MessageDigest shaCor = MessageDigest.getInstance("SHA-384");
 		
-		for (int size = 0; size < 200; ++size)
+		for (int size = 0; size < 500; ++size)
 		{
 			System.out.println("Size: "+size);
 			byte[] input = new byte[size];
-			for (int x = 0; x < 5; ++x)
+			for (int x = 0; x < 2; ++x)
 			{
 				//System.out.print(x+" ");
 				for(int i = 0;i<size;++i)
@@ -87,11 +87,11 @@ public class SHA2_Test
 		System.out.println("Test SHA512");
 		MessageDigest shaCor = MessageDigest.getInstance("SHA-512");
 		
-		for (int size = 0; size < 200; ++size)
+		for (int size = 0; size < 500; ++size)
 		{
 			System.out.println("Size: "+size);
 			byte[] input = new byte[size];
-			for (int x = 0; x < 5; ++x)
+			for (int x = 0; x < 2; ++x)
 			{
 				//System.out.print(x+" ");
 				for(int i = 0;i<size;++i)

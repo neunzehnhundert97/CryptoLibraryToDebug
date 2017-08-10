@@ -115,7 +115,7 @@ public class SHA2 extends HashFunction
 			// Setup working
 			writeOutput("Working in detail:", EXCESSIVE);
 
-			System.arraycopy(input, i*16, working, 0, 16);
+			System.arraycopy(input, i * 16, working, 0, 16);
 
 			for (int t = 16; t < 64; ++t)
 			{
@@ -246,7 +246,7 @@ public class SHA2 extends HashFunction
 			// Setup working
 			writeOutput("Working in detail:", EXCESSIVE);
 
-			System.arraycopy(input, 0, working, 0, 16);
+			System.arraycopy(input, i * 16, working, 0, 16);
 
 			for (int t = 16; t < 80; ++t)
 			{
@@ -281,9 +281,8 @@ public class SHA2 extends HashFunction
 				T2 = tmp3 + tmp4;
 
 				writeOutput("T1:", EXCESSIVE);
-				writeOutput(
-						String.format("%016X + %016X + %016X + %016X + %016X", h, tmp1, tmp2, constants1024[t], working[t]),
-						EXCESSIVE);
+				writeOutput(String.format("%016X + %016X + %016X + %016X + %016X", h, tmp1, tmp2, constants1024[t],
+						working[t]), EXCESSIVE);
 				writeOutput(String.format("= %016X", T1), EXCESSIVE);
 
 				writeOutput("T2:", EXCESSIVE);
@@ -317,7 +316,7 @@ public class SHA2 extends HashFunction
 			state[7] += h;
 
 			// Test, if it is not the final round
-			if (i + 1 < input.length * 4 / BLOCKSIZE[version / 2])
+			if (i + 1 < input.length * 8 / BLOCKSIZE[version / 2])
 			{
 				writeOutput("State", INFORMATIVE);
 				writeOutput(state, INFORMATIVE);

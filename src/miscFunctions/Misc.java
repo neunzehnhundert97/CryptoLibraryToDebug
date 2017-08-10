@@ -81,8 +81,8 @@ public class Misc
 
 		for (int x = 0; x < ints.length / 2; ++x)
 		{
-			longs[x] = ((long) ints[2 * x]) << 32;
-			longs[x] |= ints[2 * x + 1];
+			longs[x] = Integer.toUnsignedLong(ints[2 * x]) << 32;
+			longs[x] |= Integer.toUnsignedLong(ints[2 * x + 1]);
 		}
 
 		return longs;
