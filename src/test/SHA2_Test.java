@@ -15,93 +15,93 @@ public class SHA2_Test
 	{
 		System.out.println("Test SHA224");
 		MessageDigest shaCor = MessageDigest.getInstance("SHA-224");
-		
-		for (int size = 0; size < 1000; ++size)
+
+		for (int size = 0; size < 10000; ++size)
 		{
-			System.out.println("Size: "+size);
+			System.out.println("Size: " + size);
 			byte[] input = new byte[size];
-			for (int x = 0; x < 2; ++x)
+			for (int x = 0; x < 10; ++x)
 			{
-				//System.out.print(x+" ");
-				for(int i = 0;i<size;++i)
+				// System.out.print(x+" ");
+				for (int i = 0; i < size; ++i)
 				{
-					input[i] = (byte) (Math.random()*Byte.MAX_VALUE);
+					input[i] = (byte) (Math.random() * Byte.MAX_VALUE);
 				}
-				
-				assertArrayEquals(shaCor.digest(input), (new SHA2(input, SHA2.SHA224, -1).digest()));
-				
+
+				assertArrayEquals(shaCor.digest(input), (new SHA2(input, SHA2.SHA224, null, -1).digest()));
+
 			}
 		}
 	}
-	
+
 	@Test
 	public final void testSHA256() throws NoSuchAlgorithmException
 	{
 		System.out.println("Test SHA256");
 		MessageDigest shaCor = MessageDigest.getInstance("SHA-256");
-		
-		for (int size = 0; size < 1000; ++size)
+
+		for (int size = 0; size < 10000; ++size)
 		{
-			System.out.println("Size: "+size);
+			System.out.println("Size: " + size);
 			byte[] input = new byte[size];
-			for (int x = 0; x < 2; ++x)
+			for (int x = 0; x < 10; ++x)
 			{
-				//System.out.print(x+" ");
-				for(int i = 0;i<size;++i)
+				// System.out.print(x+" ");
+				for (int i = 0; i < size; ++i)
 				{
-					input[i] = (byte) (Math.random()*Byte.MAX_VALUE);
+					input[i] = (byte) (Math.random() * Byte.MAX_VALUE);
 				}
-				
-				assertArrayEquals(shaCor.digest(input), (new SHA2(input, SHA2.SHA256, -1).digest()));
-				
+
+				assertArrayEquals(shaCor.digest(input), (new SHA2(input, SHA2.SHA256, null, -1).digest()));
+
 			}
 		}
 	}
-	
+
 	@Test
 	public final void testSHA384() throws NoSuchAlgorithmException
 	{
 		System.out.println("Test SHA384");
 		MessageDigest shaCor = MessageDigest.getInstance("SHA-384");
-		
-		for (int size = 0; size < 1000; ++size)
+
+		for (int size = 0; size < 10000; ++size)
 		{
-			System.out.println("Size: "+size);
+			System.out.println("Size: " + size);
 			byte[] input = new byte[size];
-			for (int x = 0; x < 2; ++x)
+			for (int x = 0; x < 10; ++x)
 			{
-				//System.out.print(x+" ");
-				for(int i = 0;i<size;++i)
+				// System.out.print(x+" ");
+				for (int i = 0; i < size; ++i)
 				{
-					input[i] = (byte) (Math.random()*Byte.MAX_VALUE);
+					input[i] = (byte) (Math.random() * Byte.MAX_VALUE);
 				}
-				
-				assertArrayEquals(shaCor.digest(input), (new SHA2(input, SHA2.SHA384, -1).digest()));
-				
+
+				assertArrayEquals(shaCor.digest(input), (new SHA2(input, SHA2.SHA384, null, -1).digest()));
+
 			}
 		}
 	}
-	
+
 	@Test
 	public final void testSHA512() throws NoSuchAlgorithmException
 	{
 		System.out.println("Test SHA512");
 		MessageDigest shaCor = MessageDigest.getInstance("SHA-512");
-		
-		for (int size = 0; size < 1000; ++size)
+
+		for (int size = 0; size < 10000; ++size)
 		{
-			System.out.println("Size: "+size);
+			System.out.println("Size: " + size);
 			byte[] input = new byte[size];
-			for (int x = 0; x < 2; ++x)
+			for (int x = 0; x < 10; ++x)
 			{
-				//System.out.print(x+" ");
-				for(int i = 0;i<size;++i)
+				// System.out.print(x+" ");
+				for (int i = 0; i < size; ++i)
 				{
-					input[i] = (byte) (Math.random()*Byte.MAX_VALUE);
+					input[i] = (byte) (Math.random() * Byte.MAX_VALUE);
 				}
-				
-				assertArrayEquals(shaCor.digest(input), (new SHA2(input, SHA2.SHA512, -1).digest()));
-				
+
+				assertArrayEquals(shaCor.digest(input), (new SHA2(input, SHA2.SHA512, null, -1).digest()));
+
 			}
 		}
 	}
