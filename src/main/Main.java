@@ -40,11 +40,12 @@ public class Main
 			case "-i":
 			case "-input":
 				input = args[++i];
-				
-				if (input == null) {
+
+				if (input == null)
+				{
 					input = "";
 				}
-				
+
 				break;
 			case "-v":
 			case "-verbose":
@@ -100,8 +101,8 @@ public class Main
 
 		if (algorithm.startsWith("-"))
 		{
-			System.out.println(
-					"ERROR: Please enter an algorithm after '-algorithm' or '-a' You choosed " + algorithm + " as an algorithm.");
+			System.out.println("ERROR: Please enter an algorithm after '-algorithm' or '-a' You choosed " + algorithm
+					+ " as an algorithm.");
 		}
 
 		StringBuilder output = new StringBuilder();
@@ -112,20 +113,24 @@ public class Main
 			switch (algorithm.toLowerCase())
 			{
 			case "sha224":
-				Misc.printHeadLine("SHA224");
+				Misc.printHeadLine("SHA-224");
 				(new SHA2(input.getBytes(), SHA2.SHA224, output, verboseLevel)).digest();
 				break;
 			case "sha256":
-				Misc.printHeadLine("SHA256");
+				Misc.printHeadLine("SHA-256");
 				(new SHA2(input.getBytes(), SHA2.SHA256, output, verboseLevel)).digest();
 				break;
 			case "sha384":
-				Misc.printHeadLine("SHA384");
+				Misc.printHeadLine("SHA-384");
 				(new SHA2(input.getBytes(), SHA2.SHA384, output, verboseLevel)).digest();
 				break;
 			case "sha512":
-				Misc.printHeadLine("SHA512");
+				Misc.printHeadLine("SHA-512");
 				(new SHA2(input.getBytes(), SHA2.SHA512, output, verboseLevel)).digest();
+				break;
+			case "sha1":
+				Misc.printHeadLine("SHA-1");
+				(new SHA1(input.getBytes(), output, verboseLevel)).digest();
 				break;
 			}
 		}

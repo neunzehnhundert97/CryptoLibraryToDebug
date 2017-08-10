@@ -75,7 +75,7 @@ public class SHA2 extends HashFunction
 
 	private int[] process512()
 	{
-		// Initialize state
+		// Initialize
 		int[] working = new int[64];
 		int[] state = new int[8];
 		int[] input = Misc.concatToInteger(this.input);
@@ -112,7 +112,7 @@ public class SHA2 extends HashFunction
 			writeOutput("Block " + (i + 1), INFORMATIVE);
 			writeOutput("", INFORMATIVE);
 
-			// Setup working
+			// Set up working
 			writeOutput("Working in detail:", EXCESSIVE);
 
 			System.arraycopy(input, i * 16, working, 0, 16);
@@ -343,7 +343,7 @@ public class SHA2 extends HashFunction
 
 		// Check, if padding will add another block
 		// For Blocks of 512, the input may not exceed 64 - 8 = 56 Bytes
-		// For blocks of 512, the input may not exceed 128 - 16 = 112 Bytes
+		// For blocks of 1024, the input may not exceed 128 - 16 = 112 Bytes
 		if (length % blockSize > blockSize - 1 - blockSize / 8 || length % blockSize == 0)
 		{
 			blocks++;
