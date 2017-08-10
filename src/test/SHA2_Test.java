@@ -22,7 +22,6 @@ public class SHA2_Test
 			byte[] input = new byte[size];
 			for (int x = 0; x < 10; ++x)
 			{
-				// System.out.print(x+" ");
 				for (int i = 0; i < size; ++i)
 				{
 					input[i] = (byte) (Math.random() * Byte.MAX_VALUE);

@@ -45,11 +45,14 @@ public class SHA1 extends HashFunction
 
 			for (int t = 16; t < 80; ++t)
 			{
-				int tmp = Integer.rotateLeft(working[t - 3], 1);
-				working[t] = tmp ^ working[t - 8] ^ working[t - 14] ^ working[t - 16];
+				// Compute working
+				// Note that the rotation is done at the end, not directly to one of the values!
+				working[t] = Integer.rotateLeft(working[t - 3] ^ working[t - 8] ^ working[t - 14] ^ working[t - 16], 1);
 				writeOutput("W[" + t + "]", EXCESSIVE);
-				writeOutput(String.format("%08X ^ %08X ^ %08X ^ %08X", tmp, working[t - 8], working[t - 14],
-						working[t - 16]), EXCESSIVE);
+				writeOutput(String.format("(%08X ^ %08X ^ %08X ^ %08X) rotate left by 1", working[t - 3],
+						working[t - 8], working[t - 14], working[t - 16]), EXCESSIVE);
+				writeOutput(String.format("=(%08X) rotate left by 1",
+						working[t - 3] ^ working[t - 8] ^ working[t - 14] ^ working[t - 16]), EXCESSIVE);
 				writeOutput(String.format("=%08X\n", working[t]), EXCESSIVE);
 			}
 
