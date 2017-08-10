@@ -69,6 +69,8 @@ public class InteractiveIO
 			String input = null;
 			String verboseLevel = null;
 			String[] command = new String[6];
+			boolean breakRead = false;
+			String tmp = null;
 
 			// we are in the sha_2 family
 			System.out.println("Do you want a input? (y/n)");
@@ -81,11 +83,9 @@ public class InteractiveIO
 				{
 				case "y":
 					System.out.println("Please enter the input:");
-
-					while (!scan.hasNext())
-					{
-					}
-					input = scan.next();
+					scan.hasNext();
+					input = scan.nextLine(); //I don't know why here two nextLines solves the problem. But it works this way!
+					input = scan.nextLine();
 					correctInput = true;
 					break;
 				case "n":
@@ -103,9 +103,6 @@ public class InteractiveIO
 			correctInput = false;
 			while (!correctInput)
 			{
-				while (!scan.hasNext())
-				{
-				}
 				verboseLevel = scan.next();
 
 				if ((Integer.parseInt(verboseLevel)) >= 0 || (Integer.parseInt(verboseLevel)) <= 3)
