@@ -10,10 +10,14 @@ Currently, this project is completely WIP.
 
 ## Available Algorithms
 
-none
+All algorithms listed here have been sccuesfully tested with the testcases in the package test.
+
+* Hasing
+	* SHA-2
 
 ## WIP Algorithms
 
+* SHA-1
 
 ## Planned Algorithms
 
@@ -23,8 +27,6 @@ none
 	* Vigenère
 
 * Hashing
-	* SHA-1
-	* SHA-2
 	* SHA-3
 
 * Misc
