@@ -7,8 +7,6 @@ public class Main
 {
 	private static final int HELP_WIDTH = 18;
 
-	public static String output;
-
 	public static void main(String[] args)
 	{
 
@@ -19,15 +17,7 @@ public class Main
 		}
 		else
 		{
-			try
-			{
-				doAlgorithm(args);
-			}
-			catch (Exception e)
-			{
-				System.out.println(output);
-				e.printStackTrace();
-			}
+			doAlgorithm(args);
 		}
 	}
 
@@ -114,30 +104,39 @@ public class Main
 					"ERROR: Please enter an algorithm after '-algorithm' or '-a' You choosed " + algorithm + " as an algorithm.");
 		}
 
-		output = "";
+		StringBuilder output = new StringBuilder();
 
 		// now start the algorithms
-		switch (algorithm.toLowerCase())
+		try
 		{
-		case "sha224":
-			Misc.printHeadLine("SHA224");
-			(new SHA2(input.getBytes(), SHA2.SHA224, verboseLevel)).digest();
-			break;
-		case "sha256":
-			Misc.printHeadLine("SHA256");
-			(new SHA2(input.getBytes(), SHA2.SHA256, verboseLevel)).digest();
-			break;
-		case "sha384":
-			Misc.printHeadLine("SHA384");
-			(new SHA2(input.getBytes(), SHA2.SHA384, verboseLevel)).digest();
-			break;
-		case "sha512":
-			Misc.printHeadLine("SHA512");
-			(new SHA2(input.getBytes(), SHA2.SHA512, verboseLevel)).digest();
-			break;
+			switch (algorithm.toLowerCase())
+			{
+			case "sha224":
+				Misc.printHeadLine("SHA224");
+				(new SHA2(input.getBytes(), SHA2.SHA224, output, verboseLevel)).digest();
+				break;
+			case "sha256":
+				Misc.printHeadLine("SHA256");
+				(new SHA2(input.getBytes(), SHA2.SHA256, output, verboseLevel)).digest();
+				break;
+			case "sha384":
+				Misc.printHeadLine("SHA384");
+				(new SHA2(input.getBytes(), SHA2.SHA384, output, verboseLevel)).digest();
+				break;
+			case "sha512":
+				Misc.printHeadLine("SHA512");
+				(new SHA2(input.getBytes(), SHA2.SHA512, output, verboseLevel)).digest();
+				break;
+			}
 		}
-
-		System.out.println(output);
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			System.out.println(output);
+		}
 
 		System.exit(0);
 	}

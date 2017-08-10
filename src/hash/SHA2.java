@@ -45,10 +45,10 @@ public class SHA2 extends HashFunction
 	private int version;
 
 	// Constructor
-	public SHA2(byte[] input, int version, int verbose)
+	public SHA2(byte[] input, int version, StringBuilder output, int verbose)
 	{
 		// Call constructor of superclass
-		super(input, verbose);
+		super(input, output, verbose);
 
 		// Set Attributes
 		this.version = version;
