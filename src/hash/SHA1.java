@@ -126,7 +126,6 @@ public class SHA1 extends HashFunction
 
 		// Check, if padding will add another block
 		// For Blocks of 512, the input may not exceed 64 - 8 = 56 Bytes
-		// For blocks of 512, the input may not exceed 128 - 16 = 112 Bytes
 		if (length % blockSize > blockSize - 1 - blockSize / 8 || length % blockSize == 0)
 		{
 			blocks++;
