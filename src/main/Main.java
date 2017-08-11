@@ -86,6 +86,10 @@ public class Main
 
 			}
 		}
+		if (input == null)
+		{
+			input = "";
+		}
 
 		// check mandatory inputs
 		if (algorithm == null)

@@ -69,8 +69,6 @@ public class InteractiveIO
 			String input = null;
 			String verboseLevel = null;
 			String[] command = new String[6];
-			boolean breakRead = false;
-			String tmp = null;
 
 			// we are in the sha_2 family
 			System.out.println("Do you want a input? (y/n)");
