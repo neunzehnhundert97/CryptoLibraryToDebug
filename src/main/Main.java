@@ -1,6 +1,9 @@
 package main;
 
 import miscFunctions.*;
+
+import com.sun.org.apache.xml.internal.security.utils.DigesterOutputStream;
+
 import hash.*;
 
 public class Main
@@ -28,6 +31,7 @@ public class Main
 		int verboseLevel = -1;
 		String key = null;
 		boolean de_en_cryption = false; // false = decryption --- true = encryption
+		boolean allHashSet = false;
 
 		for (int i = 0; i < args.length; i++)
 		{
@@ -49,9 +53,12 @@ public class Main
 				// check for input string with blanks
 				for (int x = i + 2; x < args.length; x++)
 				{
-					if(! args[x].startsWith("-")) {
+					if (!args[x].startsWith("-"))
+					{
 						input = input + " " + args[x];
-					}else {
+					}
+					else
+					{
 						break;
 					}
 				}
@@ -83,45 +90,89 @@ public class Main
 			case "-Interactive":
 				@SuppressWarnings("unused")
 				InteractiveIO iio = new InteractiveIO();
-
+			case "-allHash":
+			case "-allhash":
+				allHashSet = true;
 			}
 		}
+		
+		Misc.printHeadLine(null);
+
+		// check mandatory inputs
+		if (algorithm == null && allHashSet == false)
+		{
+			System.out.println("ERROR: Please enter an algorithm after '-algorithm' or '-a' You choosed " + algorithm
+					+ " as an algorithm.");
+			Misc.throwError(-100);
+		}
+
 		if (input == null)
 		{
 			input = "";
 		}
 
-		// check mandatory inputs
 		if (algorithm == null)
 		{
-			System.out.println("ERROR: Please enter an algorithm after '-algorithm' or '-a' You choosed " + algorithm
-					+ " as an algorithm.");
-			System.exit(-1);
+			algorithm = "";
 		}
 
 		// check input conformity
 		if (verboseLevel == -1)
 		{
 			System.out.println(
-					"INFO: Devault verbose level is 0. You can set a higher verbose level with '-verbose' or 'v'");
+					"INFO: Default verbose level is 0. You can set a higher verbose level with\n'-verbose' or 'v'");
 			verboseLevel = 0;
 		}
 		if (verboseLevel < 0 || verboseLevel > 3)
 		{
 			System.out.println("ERROR: Please enter a possible verbose level. You choosed " + verboseLevel
 					+ "as an verbose level. Possible levels are 0, 1, 2, 3.");
-			System.exit(-1);
+			Misc.throwError(-100);
 		}
 
 		if (algorithm.startsWith("-"))
 		{
 			System.out.println("ERROR: Please enter an algorithm after '-algorithm' or '-a' You choosed " + algorithm
 					+ " as an algorithm.");
+			Misc.throwError(-100);
 		}
 
 		StringBuilder output = new StringBuilder();
 
+		if (allHashSet)
+		{
+			try
+			{
+				Misc.printHeadLine("SHA-224");
+				(new SHA2(input.getBytes(), SHA2.SHA224, output, verboseLevel)).digest();
+				System.out.println(output);
+				output.delete(0, output.length());
+				Misc.printHeadLine("SHA-256");
+				(new SHA2(input.getBytes(), SHA2.SHA256, output, verboseLevel)).digest();
+				System.out.println(output);
+				output.delete(0, output.length());
+				Misc.printHeadLine("SHA-256");
+				(new SHA2(input.getBytes(), SHA2.SHA384, output, verboseLevel)).digest();
+				System.out.println(output);
+				output.delete(0, output.length());
+				Misc.printHeadLine("SHA-256");
+				(new SHA2(input.getBytes(), SHA2.SHA512, output, verboseLevel)).digest();
+				System.out.println(output);
+				output.delete(0, output.length());
+				Misc.printHeadLine("SHA-1");
+				(new SHA1(input.getBytes(), output, verboseLevel)).digest();
+				System.out.println(output);
+				output.delete(0, output.length());
+				System.exit(0);
+			}
+			catch (Exception e)
+			{
+				Misc.throwError(-101);
+			}
+		}
+
 		// now start the algorithms
+
 		try
 		{
 			switch (algorithm.toLowerCase())
@@ -150,13 +201,8 @@ public class Main
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			Misc.throwError(-102);
 		}
-		finally
-		{
-			System.out.println(output);
-		}
-
 		System.exit(0);
 	}
 
