@@ -1,6 +1,6 @@
 # CryptoLibraryToDebug
 
-This project shall help you programming by giving you not only the results but also the intermediate values of multiple algorithms.
+This project shall help you programming by giving you not only the results but also the intermediate values of multiple cryptographic algorithms.
 The code will not be optimized in any way except (hopefully) readability.
 
 We do this mainly for fun and training, and because we experienced how difficult it can be
