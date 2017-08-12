@@ -27,7 +27,7 @@ public class MD5_Test
 			{
 				for (int i = 0; i < size; ++i)
 				{
-					input[i] = (byte) (Math.random() * Byte.MAX_VALUE);
+					input[i] = (byte) (Math.random() * 256);
 				}
 
 				assertArrayEquals(shaCor.digest(input), (new MD5(input,  null, -1).digest()));

@@ -26,7 +26,7 @@ public class SHA1_Test
 			{
 				for (int i = 0; i < size; ++i)
 				{
-					input[i] = (byte) (Math.random() * Byte.MAX_VALUE);
+					input[i] = (byte) (Math.random() * 256);
 				}
 
 				assertArrayEquals(shaCor.digest(input), (new SHA1(input,  null, -1).digest()));
