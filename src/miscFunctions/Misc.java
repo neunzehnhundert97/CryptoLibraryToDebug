@@ -104,15 +104,15 @@ public class Misc
 		
 		switch (errorCode) {
 		case -1:
-			System.out.println("FATAL ERROR! Please report this bug!");
+			System.out.println("FATAL ERROR! Please report this bug!");break;
 		case -2:
-			System.out.println("FATAL ERROR FOR DEBUG ONLY!");
+			System.out.println("FATAL ERROR FOR DEBUG ONLY!");break;
 		case -100:
-			System.out.println("ERROR IN INPUT VALUES");
+			System.out.println("ERROR IN INPUT VALUES");break;
 		case -101:
-			System.out.println("ERROR IN ALL HASH ALGORITHMS");
+			System.out.println("ERROR IN ALL HASH ALGORITHMS");break;
 		case -102:
-			System.out.println("ERRIR IN SPECIFIC HASH");
+			System.out.println("ERRIR IN SPECIFIC HASH");break;
 		}
 		System.exit(errorCode);
 	}
