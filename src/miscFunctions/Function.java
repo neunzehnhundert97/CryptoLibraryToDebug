@@ -32,6 +32,16 @@ public abstract class Function
 			output.append('\n');
 		}
 	}
+	
+	protected void writeFormatOutput(String string, int verboseLevel, Object... args)
+	{
+		if (verboseLevel <= this.verbose)
+		{
+			this.intend(verboseLevel);
+			output.append(String.format(string, args));
+			output.append('\n');
+		}
+	}
 
 	protected void writeOutput(byte[] array, int verboseLevel)
 	{
