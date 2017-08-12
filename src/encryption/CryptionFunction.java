@@ -7,14 +7,14 @@ public abstract class CryptionFunction extends Function
 	// Attributes
 	private byte[] key;
 
-	public CryptionFunction(byte[] input, byte[] key, StringBuilder output, int verbose)
+	public CryptionFunction(byte[] key, StringBuilder output, int verbose)
 	{
-		super(input, output, verbose);
+		super(output, verbose);
 		this.key = key;
 	}
 
-	public abstract byte[] encryption();
+	public abstract byte[] encryption(byte[] input);
 
-	public abstract byte[] decryption();
+	public abstract byte[] decryption(byte[] input);
 
 }

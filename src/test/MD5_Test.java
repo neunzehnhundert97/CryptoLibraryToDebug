@@ -30,7 +30,7 @@ public class MD5_Test
 					input[i] = (byte) (Math.random() * 256);
 				}
 
-				assertArrayEquals(shaCor.digest(input), (new MD5(input,  null, -1).digest()));
+				assertArrayEquals(shaCor.digest(input), (new MD5(null, -1).digest(input)));
 
 			}
 		}

@@ -87,32 +87,39 @@ public class Misc
 
 		return longs;
 	}
-	
-	public static void throwError(int errorCode) {
-		
-		/* FATAL ERROR DEFINITIONS:
-		 * ------------------------
-		 * -1 :	Fatal ERRER where the program normally not get to. For example a switch where it should be impossible to get into the default 
-		 * 		case but you never get to this point normally.
-		 * -2 :	FATAL ERROR for debug reasons. We normally use this error to detect bugs in code.
+
+	public static void throwError(int errorCode)
+	{
+
+		/*
+		 * FATAL ERROR DEFINITIONS: ------------------------ -1 : Fatal ERRER where the
+		 * program normally not get to. For example a switch where it should be
+		 * impossible to get into the default case but you never get to this point
+		 * normally. -2 : FATAL ERROR for debug reasons. We normally use this error to
+		 * detect bugs in code.
 		 * 
-		 * -100+ ERROR DEFINITIONS:
-		 * ------------------------
-		 * -100 :	Error in the input values. Most common reason: Wrong input Syntax. Here a short sys.out should tell you whats going wrong
-		 * 			before you get into this error function.
+		 * -100+ ERROR DEFINITIONS: ------------------------ -100 : Error in the input
+		 * values. Most common reason: Wrong input Syntax. Here a short sys.out should
+		 * tell you whats going wrong before you get into this error function.
 		 */
-		
-		switch (errorCode) {
+
+		switch (errorCode)
+		{
 		case -1:
-			System.out.println("FATAL ERROR! Please report this bug!");break;
+			System.out.println("FATAL ERROR! Please report this bug!");
+			break;
 		case -2:
-			System.out.println("FATAL ERROR FOR DEBUG ONLY!");break;
+			System.out.println("FATAL ERROR FOR DEBUG ONLY!");
+			break;
 		case -100:
-			System.out.println("ERROR IN INPUT VALUES");break;
+			System.out.println("ERROR IN INPUT VALUES");
+			break;
 		case -101:
-			System.out.println("ERROR IN ALL HASH ALGORITHMS");break;
+			System.out.println("ERROR IN ALL HASH ALGORITHMS");
+			break;
 		case -102:
-			System.out.println("ERRIR IN SPECIFIC HASH");break;
+			System.out.println("ERROR IN SPECIFIC HASH");
+			break;
 		}
 		System.exit(errorCode);
 	}

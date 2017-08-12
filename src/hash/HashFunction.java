@@ -6,13 +6,13 @@ public abstract class HashFunction extends Function
 {
 
 	// Constructor
-	public HashFunction(byte[] input, StringBuilder output, int verbose)
+	public HashFunction(StringBuilder output, int verbose)
 	{
 		// Call constructor of superclass
-		super(input, output, verbose);
+		super(output, verbose);
 	}
 
 	// Abstract digest method
-	public abstract byte[] digest();
+	public abstract byte[] digest(byte[] input);
 
 }

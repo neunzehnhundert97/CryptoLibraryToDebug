@@ -29,7 +29,7 @@ public class SHA1_Test
 					input[i] = (byte) (Math.random() * 256);
 				}
 
-				assertArrayEquals(shaCor.digest(input), (new SHA1(input,  null, -1).digest()));
+				assertArrayEquals(shaCor.digest(input), (new SHA1(null, -1).digest(input)));
 
 			}
 		}
