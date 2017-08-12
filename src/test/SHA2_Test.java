@@ -27,7 +27,7 @@ public class SHA2_Test
 					input[i] = (byte) (Math.random() * 256);
 				}
 
-				assertArrayEquals(shaCor.digest(input), (new SHA2(input, SHA2.SHA224, null, -1).digest()));
+				assertArrayEquals(shaCor.digest(input), (new SHA2(SHA2.SHA224, null, -1).digest(input)));
 
 			}
 		}
@@ -51,7 +51,7 @@ public class SHA2_Test
 					input[i] = (byte) (Math.random() * 256);
 				}
 
-				assertArrayEquals(shaCor.digest(input), (new SHA2(input, SHA2.SHA256, null, -1).digest()));
+				assertArrayEquals(shaCor.digest(input), (new SHA2(SHA2.SHA256, null, -1).digest(input)));
 
 			}
 		}
@@ -75,7 +75,7 @@ public class SHA2_Test
 					input[i] = (byte) (Math.random() * 256);
 				}
 
-				assertArrayEquals(shaCor.digest(input), (new SHA2(input, SHA2.SHA384, null, -1).digest()));
+				assertArrayEquals(shaCor.digest(input), (new SHA2(SHA2.SHA384, null, -1).digest(input)));
 
 			}
 		}
@@ -99,7 +99,7 @@ public class SHA2_Test
 					input[i] = (byte) (Math.random() * 256);
 				}
 
-				assertArrayEquals(shaCor.digest(input), (new SHA2(input, SHA2.SHA512, null, -1).digest()));
+				assertArrayEquals(shaCor.digest(input), (new SHA2(SHA2.SHA512, null, -1).digest(input)));
 
 			}
 		}

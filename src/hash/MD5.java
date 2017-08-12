@@ -16,14 +16,20 @@ public class MD5 extends HashFunction
 			0xffeff47d, 0x85845dd1, 0x6fa87e4f, 0xfe2ce6e0, 0xa3014314, 0x4e0811a1, 0xf7537e82, 0xbd3af235, 0x2ad7d2bb,
 			0xeb86d391 };
 
-	public MD5(byte[] input, StringBuilder output, int verbose)
+	public MD5(StringBuilder output, int verbose)
 	{
-		super(input, output, verbose);
+		super(output, verbose);
 	}
 
 	@Override
-	public byte[] digest()
+	public byte[] digest(byte[] input)
 	{
+		this.input = input;
+
+		// Print input
+		this.writeOutput("Input (" + input.length + " Bytes)", QUIET);
+		this.writeOutput(input, QUIET);
+
 		// Padding
 		this.padding();
 
@@ -71,8 +77,9 @@ public class MD5 extends HashFunction
 			writeOutput("B", EXCESSIVE);
 			B = this.r1(B, C, D, A, X[3], 22, 4);
 
-			writeOutput("---------------------------------------------------------------------------------------\n", EXCESSIVE);
-			
+			writeOutput("---------------------------------------------------------------------------------------\n",
+					EXCESSIVE);
+
 			writeOutput("A", EXCESSIVE);
 			A = this.r1(A, B, C, D, X[4], 7, 5);
 			writeOutput("D", EXCESSIVE);
@@ -81,8 +88,9 @@ public class MD5 extends HashFunction
 			C = this.r1(C, D, A, B, X[6], 17, 7);
 			writeOutput("B", EXCESSIVE);
 			B = this.r1(B, C, D, A, X[7], 22, 8);
-			
-			writeOutput("---------------------------------------------------------------------------------------\n", EXCESSIVE);
+
+			writeOutput("---------------------------------------------------------------------------------------\n",
+					EXCESSIVE);
 
 			writeOutput("A", EXCESSIVE);
 			A = this.r1(A, B, C, D, X[8], 7, 9);
@@ -92,8 +100,9 @@ public class MD5 extends HashFunction
 			C = this.r1(C, D, A, B, X[10], 17, 11);
 			writeOutput("B", EXCESSIVE);
 			B = this.r1(B, C, D, A, X[11], 22, 12);
-			
-			writeOutput("---------------------------------------------------------------------------------------\n", EXCESSIVE);
+
+			writeOutput("---------------------------------------------------------------------------------------\n",
+					EXCESSIVE);
 
 			writeOutput("A", EXCESSIVE);
 			A = this.r1(A, B, C, D, X[12], 7, 13);
@@ -120,8 +129,9 @@ public class MD5 extends HashFunction
 			C = this.r2(C, D, A, B, X[11], 14, 19);
 			writeOutput("B", EXCESSIVE);
 			B = this.r2(B, C, D, A, X[0], 20, 20);
-			
-			writeOutput("---------------------------------------------------------------------------------------\n", EXCESSIVE);
+
+			writeOutput("---------------------------------------------------------------------------------------\n",
+					EXCESSIVE);
 
 			writeOutput("A", EXCESSIVE);
 			A = this.r2(A, B, C, D, X[5], 5, 21);
@@ -131,8 +141,9 @@ public class MD5 extends HashFunction
 			C = this.r2(C, D, A, B, X[15], 14, 23);
 			writeOutput("B", EXCESSIVE);
 			B = this.r2(B, C, D, A, X[4], 20, 24);
-			
-			writeOutput("---------------------------------------------------------------------------------------\n", EXCESSIVE);
+
+			writeOutput("---------------------------------------------------------------------------------------\n",
+					EXCESSIVE);
 
 			writeOutput("A", EXCESSIVE);
 			A = this.r2(A, B, C, D, X[9], 5, 25);
@@ -142,8 +153,9 @@ public class MD5 extends HashFunction
 			C = this.r2(C, D, A, B, X[3], 14, 27);
 			writeOutput("B", EXCESSIVE);
 			B = this.r2(B, C, D, A, X[8], 20, 28);
-			
-			writeOutput("---------------------------------------------------------------------------------------\n", EXCESSIVE);
+
+			writeOutput("---------------------------------------------------------------------------------------\n",
+					EXCESSIVE);
 
 			writeOutput("A", EXCESSIVE);
 			A = this.r2(A, B, C, D, X[13], 5, 29);
@@ -170,8 +182,9 @@ public class MD5 extends HashFunction
 			C = this.r3(C, D, A, B, X[11], 16, 35);
 			writeOutput("B", EXCESSIVE);
 			B = this.r3(B, C, D, A, X[14], 23, 36);
-			
-			writeOutput("---------------------------------------------------------------------------------------\n", EXCESSIVE);
+
+			writeOutput("---------------------------------------------------------------------------------------\n",
+					EXCESSIVE);
 
 			writeOutput("A", EXCESSIVE);
 			A = this.r3(A, B, C, D, X[1], 4, 37);
@@ -181,8 +194,9 @@ public class MD5 extends HashFunction
 			C = this.r3(C, D, A, B, X[7], 16, 39);
 			writeOutput("B", EXCESSIVE);
 			B = this.r3(B, C, D, A, X[10], 23, 40);
-			
-			writeOutput("---------------------------------------------------------------------------------------\n", EXCESSIVE);
+
+			writeOutput("---------------------------------------------------------------------------------------\n",
+					EXCESSIVE);
 
 			writeOutput("A", EXCESSIVE);
 			A = this.r3(A, B, C, D, X[13], 4, 41);
@@ -192,8 +206,9 @@ public class MD5 extends HashFunction
 			C = this.r3(C, D, A, B, X[3], 16, 43);
 			writeOutput("B", EXCESSIVE);
 			B = this.r3(B, C, D, A, X[6], 23, 44);
-			
-			writeOutput("---------------------------------------------------------------------------------------\n", EXCESSIVE);
+
+			writeOutput("---------------------------------------------------------------------------------------\n",
+					EXCESSIVE);
 
 			writeOutput("A", EXCESSIVE);
 			A = this.r3(A, B, C, D, X[9], 4, 45);
@@ -220,8 +235,9 @@ public class MD5 extends HashFunction
 			C = this.r4(C, D, A, B, X[14], 15, 51);
 			writeOutput("B", EXCESSIVE);
 			B = this.r4(B, C, D, A, X[5], 21, 52);
-			
-			writeOutput("---------------------------------------------------------------------------------------\n", EXCESSIVE);
+
+			writeOutput("---------------------------------------------------------------------------------------\n",
+					EXCESSIVE);
 
 			writeOutput("A", EXCESSIVE);
 			A = this.r4(A, B, C, D, X[12], 6, 53);
@@ -231,8 +247,9 @@ public class MD5 extends HashFunction
 			C = this.r4(C, D, A, B, X[10], 15, 55);
 			writeOutput("B", EXCESSIVE);
 			B = this.r4(B, C, D, A, X[1], 21, 56);
-			
-			writeOutput("---------------------------------------------------------------------------------------\n", EXCESSIVE);
+
+			writeOutput("---------------------------------------------------------------------------------------\n",
+					EXCESSIVE);
 
 			writeOutput("A", EXCESSIVE);
 			A = this.r4(A, B, C, D, X[8], 6, 57);
@@ -242,8 +259,9 @@ public class MD5 extends HashFunction
 			C = this.r4(C, D, A, B, X[6], 15, 59);
 			writeOutput("B", EXCESSIVE);
 			B = this.r4(B, C, D, A, X[13], 21, 60);
-			
-			writeOutput("---------------------------------------------------------------------------------------\n", EXCESSIVE);
+
+			writeOutput("---------------------------------------------------------------------------------------\n",
+					EXCESSIVE);
 
 			writeOutput("A", EXCESSIVE);
 			A = this.r4(A, B, C, D, X[4], 6, 61);

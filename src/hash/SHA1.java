@@ -9,15 +9,21 @@ public class SHA1 extends HashFunction
 	private final int[] constants =
 	{ 0x5A827999, 0x6ED9EBA1, 0x8F1BBCDC, 0xCA62C1D6 };
 
-	public SHA1(byte[] input, StringBuilder output, int verbose)
+	public SHA1(StringBuilder output, int verbose)
 	{
-		super(input, output, verbose);
+		super(output, verbose);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public byte[] digest()
+	public byte[] digest(byte[] input)
 	{
+		this.input = input;
+
+		// Print input
+		this.writeOutput("Input (" + input.length + " Bytes)", QUIET);
+		this.writeOutput(input, QUIET);
+
 		// Padding
 		this.padding();
 

@@ -12,15 +12,10 @@ public abstract class Function
 	protected int verbose;
 
 	// Constructor
-	public Function(byte[] input, StringBuilder output, int verboseLevel)
+	public Function(StringBuilder output, int verboseLevel)
 	{
-		this.input = input;
 		this.output = output;
 		this.verbose = verboseLevel;
-
-		// Print input
-		this.writeOutput("Input (" + input.length + " Bytes)", QUIET);
-		this.writeOutput(input, QUIET);
 	}
 
 	protected void writeOutput(String string, int verboseLevel)
@@ -32,7 +27,7 @@ public abstract class Function
 			output.append('\n');
 		}
 	}
-	
+
 	protected void writeFormatOutput(String string, int verboseLevel, Object... args)
 	{
 		if (verboseLevel <= this.verbose)

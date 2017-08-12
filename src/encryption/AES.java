@@ -3,19 +3,19 @@ package encryption;
 public class AES extends CryptionFunction
 {
 
-	public AES(byte[] input, byte[] key, StringBuilder output, int verbose)
+	public AES(byte[] key, StringBuilder output, int verbose)
 	{
-		super(input, key, output, verbose);
+		super(key, output, verbose);
 		// TODO Auto-generated constructor stub
 	}
 
-	public byte[] encryption()
+	public byte[] encryption(byte[] input)
 	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public byte[] decryption()
+	public byte[] decryption(byte[] input)
 	{
 		// TODO Auto-generated method stub
 		return null;

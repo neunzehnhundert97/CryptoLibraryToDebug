@@ -45,18 +45,24 @@ public class SHA2 extends HashFunction
 	private int version;
 
 	// Constructor
-	public SHA2(byte[] input, int version, StringBuilder output, int verbose)
+	public SHA2(int version, StringBuilder output, int verbose)
 	{
 		// Call constructor of superclass
-		super(input, output, verbose);
+		super(output, verbose);
 
 		// Set Attributes
 		this.version = version;
 	}
 
 	@Override
-	public byte[] digest()
+	public byte[] digest(byte[] input)
 	{
+		this.input = input;
+
+		// Print input
+		this.writeOutput("Input (" + input.length + " Bytes)", QUIET);
+		this.writeOutput(input, QUIET);
+
 		// Padding
 		this.padding();
 

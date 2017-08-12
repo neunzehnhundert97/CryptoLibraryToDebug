@@ -95,7 +95,7 @@ public class Main
 				allHashSet = true;
 			}
 		}
-		
+
 		Misc.printHeadLine(null);
 
 		// check mandatory inputs
@@ -144,27 +144,27 @@ public class Main
 			try
 			{
 				Misc.printHeadLine("SHA-224");
-				(new SHA2(input.getBytes(), SHA2.SHA224, output, verboseLevel)).digest();
+				(new SHA2(SHA2.SHA224, output, verboseLevel)).digest(input.getBytes());
 				System.out.println(output);
 				output.delete(0, output.length());
 				Misc.printHeadLine("SHA-256");
-				(new SHA2(input.getBytes(), SHA2.SHA256, output, verboseLevel)).digest();
+				(new SHA2(SHA2.SHA256, output, verboseLevel)).digest(input.getBytes());
 				System.out.println(output);
 				output.delete(0, output.length());
 				Misc.printHeadLine("SHA-256");
-				(new SHA2(input.getBytes(), SHA2.SHA384, output, verboseLevel)).digest();
+				(new SHA2(SHA2.SHA384, output, verboseLevel)).digest(input.getBytes());
 				System.out.println(output);
 				output.delete(0, output.length());
 				Misc.printHeadLine("SHA-256");
-				(new SHA2(input.getBytes(), SHA2.SHA512, output, verboseLevel)).digest();
+				(new SHA2(SHA2.SHA512, output, verboseLevel)).digest(input.getBytes());
 				System.out.println(output);
 				output.delete(0, output.length());
 				Misc.printHeadLine("SHA-1");
-				(new SHA1(input.getBytes(), output, verboseLevel)).digest();
+				(new SHA1(output, verboseLevel)).digest(input.getBytes());
 				System.out.println(output);
 				output.delete(0, output.length());
 				Misc.printHeadLine("MD5");
-				(new MD5(input.getBytes(), output, verboseLevel)).digest();
+				(new MD5(output, verboseLevel)).digest(input.getBytes());
 				System.out.println(output);
 				output.delete(0, output.length());
 				System.exit(0);
@@ -183,32 +183,33 @@ public class Main
 			{
 			case "sha224":
 				Misc.printHeadLine("SHA-224");
-				(new SHA2(input.getBytes(), SHA2.SHA224, output, verboseLevel)).digest();
+				(new SHA2(SHA2.SHA224, output, verboseLevel)).digest(input.getBytes());
 				break;
 			case "sha256":
 				Misc.printHeadLine("SHA-256");
-				(new SHA2(input.getBytes(), SHA2.SHA256, output, verboseLevel)).digest();
+				(new SHA2(SHA2.SHA256, output, verboseLevel)).digest(input.getBytes());
 				break;
 			case "sha384":
 				Misc.printHeadLine("SHA-384");
-				(new SHA2(input.getBytes(), SHA2.SHA384, output, verboseLevel)).digest();
+				(new SHA2(SHA2.SHA384, output, verboseLevel)).digest(input.getBytes());
 				break;
 			case "sha512":
 				Misc.printHeadLine("SHA-512");
-				(new SHA2(input.getBytes(), SHA2.SHA512, output, verboseLevel)).digest();
+				(new SHA2(SHA2.SHA512, output, verboseLevel)).digest(input.getBytes());
 				break;
 			case "sha1":
 				Misc.printHeadLine("SHA-1");
-				(new SHA1(input.getBytes(), output, verboseLevel)).digest();
+				(new SHA1(output, verboseLevel)).digest(input.getBytes());
 				break;
 			case "md5":
 				Misc.printHeadLine("MD5");
-				(new MD5(input.getBytes(), output, verboseLevel)).digest();
+				(new MD5(output, verboseLevel)).digest(input.getBytes());
 				break;
 			}
 		}
 		catch (Exception e)
 		{
+			e.printStackTrace();
 			Misc.throwError(-102);
 		}
 		finally
