@@ -163,6 +163,10 @@ public class Main
 				(new SHA1(input.getBytes(), output, verboseLevel)).digest();
 				System.out.println(output);
 				output.delete(0, output.length());
+				Misc.printHeadLine("MD5");
+				(new MD5(input.getBytes(), output, verboseLevel)).digest();
+				System.out.println(output);
+				output.delete(0, output.length());
 				System.exit(0);
 			}
 			catch (Exception e)
@@ -197,11 +201,19 @@ public class Main
 				Misc.printHeadLine("SHA-1");
 				(new SHA1(input.getBytes(), output, verboseLevel)).digest();
 				break;
+			case "md5":
+				Misc.printHeadLine("MD5");
+				(new MD5(input.getBytes(), output, verboseLevel)).digest();
+				break;
 			}
 		}
 		catch (Exception e)
 		{
 			Misc.throwError(-102);
+		}
+		finally
+		{
+			System.out.println(output);
 		}
 		System.exit(0);
 	}

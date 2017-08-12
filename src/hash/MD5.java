@@ -143,6 +143,20 @@ public class MD5 extends HashFunction
 			state[2] += C;
 			state[3] += D;
 
+			// Test, if it is not the final round
+			if (i + 1 < input.length * 4 / 64)
+			{
+				writeOutput("State", INFORMATIVE);
+				writeOutput(state, INFORMATIVE);
+
+			}
+			else
+			{
+				writeOutput("Digest", QUIET);
+				writeOutput(state, QUIET);
+				break;
+			}
+
 		}
 
 		return new int[]
@@ -152,22 +166,22 @@ public class MD5 extends HashFunction
 
 	private int r1(int a, int b, int c, int d, int x, int s, int i)
 	{
-		return b + Integer.rotateLeft((a + this.F(b, c, d) + x + T[i - 1]), 7);
+		return b + Integer.rotateLeft((a + this.F(b, c, d) + x + T[i - 1]), s);
 	}
 
 	private int r2(int a, int b, int c, int d, int x, int s, int i)
 	{
-		return b + Integer.rotateLeft((a + this.G(b, c, d) + x + T[i - 1]), 7);
+		return b + Integer.rotateLeft((a + this.G(b, c, d) + x + T[i - 1]), s);
 	}
 
 	private int r3(int a, int b, int c, int d, int x, int s, int i)
 	{
-		return b + Integer.rotateLeft((a + this.H(b, c, d) + x + T[i - 1]), 7);
+		return b + Integer.rotateLeft((a + this.H(b, c, d) + x + T[i - 1]), s);
 	}
 
 	private int r4(int a, int b, int c, int d, int x, int s, int i)
 	{
-		return b + Integer.rotateLeft((a + this.I(b, c, d) + x + T[i - 1]), 7);
+		return b + Integer.rotateLeft((a + this.I(b, c, d) + x + T[i - 1]), s);
 	}
 
 	private void padding()
@@ -217,7 +231,7 @@ public class MD5 extends HashFunction
 
 	private int G(int X, int Y, int Z)
 	{
-		return X & Z | (Y & (~Z));
+		return (X & Z) | (Y & (~Z));
 	}
 
 	private int H(int X, int Y, int Z)
