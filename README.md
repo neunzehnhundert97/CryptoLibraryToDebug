@@ -13,18 +13,18 @@ Currently, this project is completely WIP.
 All algorithms listed here have been succesfully validated with the testcases in the package "test".
 
 * Hashing
+	* MD5
 	* SHA-1
 	* SHA-2
 
 ## WIP Algorithms
 
-* MD5
 * AES
+* DES
 
 ## Planned Algorithms
 
 * Encryption
-	* DES
 	* Vigenère
 
 * Hashing
