@@ -9,13 +9,22 @@ public class AES extends CryptionFunction
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
 	public byte[] encryption(byte[] input)
 	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public byte[] decryption(byte[] input)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public byte[][] keySchedule(byte[] key)
 	{
 		// TODO Auto-generated method stub
 		return null;

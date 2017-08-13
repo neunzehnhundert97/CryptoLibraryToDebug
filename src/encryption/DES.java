@@ -23,4 +23,11 @@ public class DES extends CryptionFunction
 		return null;
 	}
 
+	@Override
+	public byte[][] keySchedule(byte[] key)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
