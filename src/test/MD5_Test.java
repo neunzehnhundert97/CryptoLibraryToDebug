@@ -8,7 +8,6 @@ import java.security.NoSuchAlgorithmException;
 import org.junit.Test;
 
 import hash.MD5;
-import hash.SHA1;
 
 public class MD5_Test
 {

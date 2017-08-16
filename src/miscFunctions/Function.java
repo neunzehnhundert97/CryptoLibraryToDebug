@@ -18,6 +18,31 @@ public abstract class Function
 		this.verbose = verboseLevel;
 	}
 
+	// This method is WIP and should not be expected to be fast and/or efficient
+	// Permutation is expected to index from 1 to input.length()
+	protected byte[] permutate(byte[] input, int[] permutation)
+	{
+		if (input.length * 8 != permutation.length)
+			Misc.throwError(-2);
+
+		byte[] output = new byte[input.length];
+
+		for (int x = 0; x < input.length; ++x)
+		{
+			byte b = input[x];
+			for (int y = 0; y < 8; ++y)
+			{
+				if (((b >>> (7 - y)) & 1) == 1)
+				{
+					int pos = permutation[x * 8 + y] - 1;
+					output[pos / 8] |= (1 << (7 - (pos % 8)));
+				}
+			}
+		}
+
+		return output;
+	}
+
 	protected void writeOutput(String string, int verboseLevel)
 	{
 		if (verboseLevel <= this.verbose)

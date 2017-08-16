@@ -17,6 +17,7 @@ public class SHA1_Test
 	{
 		System.out.println("Test SHA-1");
 		MessageDigest shaCor = MessageDigest.getInstance("SHA-1");
+		SHA1 shaTest = new SHA1(null, -1);
 
 		for (int size = 0; size < 10000; ++size)
 		{
@@ -29,7 +30,7 @@ public class SHA1_Test
 					input[i] = (byte) (Math.random() * 256);
 				}
 
-				assertArrayEquals(shaCor.digest(input), (new SHA1(null, -1).digest(input)));
+				assertArrayEquals(shaCor.digest(input), (shaTest.digest(input)));
 
 			}
 		}

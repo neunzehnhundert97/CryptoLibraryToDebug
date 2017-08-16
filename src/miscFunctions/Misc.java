@@ -61,6 +61,12 @@ public class Misc
 
 	public static int[] concatToInteger(byte[] array)
 	{
+		//Padding
+//		if(array.length %4!=0)
+//		{
+//			byte[] tmp = new byte[(int) Math.ceil(array.length*1.0/4)];
+//		}
+		
 		int[] ints = new int[array.length / 4];
 
 		for (int x = 0; x < array.length / 4; ++x)
@@ -122,5 +128,10 @@ public class Misc
 			break;
 		}
 		System.exit(errorCode);
+	}
+
+	public static String byteToBinaryString(byte b)
+	{
+		return String.format("%8s", Integer.toBinaryString(Byte.toUnsignedInt(b))).replace(' ', '0');
 	}
 }
