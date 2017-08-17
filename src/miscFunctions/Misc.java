@@ -61,12 +61,12 @@ public class Misc
 
 	public static int[] concatToInteger(byte[] array)
 	{
-		//Padding
-//		if(array.length %4!=0)
-//		{
-//			byte[] tmp = new byte[(int) Math.ceil(array.length*1.0/4)];
-//		}
-		
+		// Padding
+		// if(array.length %4!=0)
+		// {
+		// byte[] tmp = new byte[(int) Math.ceil(array.length*1.0/4)];
+		// }
+
 		int[] ints = new int[array.length / 4];
 
 		for (int x = 0; x < array.length / 4; ++x)
@@ -134,4 +134,34 @@ public class Misc
 	{
 		return String.format("%8s", Integer.toBinaryString(Byte.toUnsignedInt(b))).replace(' ', '0');
 	}
+
+	public static String byteToBinaryString(byte[] b)
+	{
+		String s = "";
+		for (byte by : b)
+		{
+			s += Misc.byteToBinaryString(by);
+		}
+		return s;
+	}
+
+	public static byte[] binStringToByteArray(String s)
+	{
+		// Pad to whole bytes
+		while (s.length() % 8 != 0)
+		{
+			s += '0';
+		}
+
+		byte[] out = new byte[s.length() / 8];
+
+		for (int x = 0; x < out.length; ++x)
+		{
+			int i = Integer.valueOf(s.substring(x * 8, x * 8 + 8), 2);
+			out[x] = (byte) i;
+		}
+
+		return out;
+	}
+
 }

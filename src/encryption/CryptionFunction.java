@@ -5,12 +5,13 @@ import miscFunctions.Function;
 public abstract class CryptionFunction extends Function
 {
 	// Attributes
-	private byte[][] key;
+	protected byte[] key;
+	protected byte[][] roundKey;
 
 	public CryptionFunction(byte[] key, StringBuilder output, int verbose)
 	{
 		super(output, verbose);
-		this.key = this.keySchedule(key);
+		this.key = key;
 	}
 
 	public abstract byte[] encryption(byte[] input);

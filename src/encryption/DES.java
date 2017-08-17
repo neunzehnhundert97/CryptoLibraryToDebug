@@ -1,5 +1,7 @@
 package encryption;
 
+import java.util.Arrays;
+
 import miscFunctions.Misc;
 
 public class DES extends CryptionFunction
@@ -50,36 +52,109 @@ public class DES extends CryptionFunction
 					2, 7, 11, 4, 1, 9, 12, 14, 2, 0, 6, 10, 13, 15, 3, 5, 8, 2, 1, 14, 7, 4, 10, 8, 13, 15, 12, 9, 0, 3,
 					5, 6, 11 } };
 
+	private final int[][] PC_1 =
+	{
+			{ 57, 49, 41, 33, 25, 17, 9, 1, 58, 50, 42, 34, 26, 18, 10, 2, 59, 51, 43, 35, 27, 19, 11, 3, 60, 52, 44,
+					36 },
+			{ 63, 55, 47, 39, 31, 23, 15, 7, 62, 54, 46, 38, 30, 22, 14, 6, 61, 53, 45, 37, 29, 21, 13, 5, 28, 20, 12,
+					4 } };
+
+	private final int[] PC_2 =
+	{ 14, 17, 11, 24, 1, 5, 3, 28, 15, 6, 21, 10, 23, 19, 12, 4, 26, 8, 16, 7, 27, 20, 13, 2, 41, 52, 31, 37, 47, 55,
+			30, 40, 51, 45, 33, 48, 44, 49, 39, 56, 34, 53, 46, 42, 50, 36, 29, 32 };
+
+	private final int[] leftShift =
+	{ 1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1 };
+
 	public DES(byte[] key, StringBuilder output, int verbose)
 	{
 		super(key, output, verbose);
-		// TODO Auto-generated constructor stub
+		this.roundKey = this.keySchedule(key);
 	}
 
 	@Override
 	public byte[] encryption(byte[] input)
 	{
 		// Perform initial Permutation
+		input = this.permutate(input, initialPermutation);
 
-		byte[] array =
-		{ (byte) 0xFF, 0, (byte) 0xFF, 0, (byte) 0xFF, 0 };
+		// Split input into L and R
+		// TODO Wirklich hintereinander?
+		byte[] L, R;
+		L = Arrays.copyOf(input, 4);
+		R = Arrays.copyOfRange(input, 4, 8);
 
-		return null;
+		// Perform rounds
+		for (int x = 0; x < 16; ++x)
+		{
+			byte[] temp = R.clone();
+			byte[] fR = this.f(R, this.roundKey[x]);
+
+			for (int y = 0; y < 4; ++y)
+			{
+				R[y] = (byte) (fR[y] ^ L[y]);
+			}
+
+			L = temp;
+		}
+
+		// Put L and R back together
+		System.arraycopy(R, 0, input, 0, 4);
+		System.arraycopy(L, 0, input, 4, 4);
+
+		// Perform inverse initial permutation
+		input = this.permutate(input, reversePermutation);
+
+		return input;
 
 	}
 
 	@Override
 	public byte[] decryption(byte[] input)
 	{
-		// TODO Auto-generated method stub
+
+		byte[] a1 = this.permutate(input, initialPermutation);
+
 		return null;
 	}
 
 	@Override
 	public byte[][] keySchedule(byte[] key)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		roundKey = new byte[16][];
+		
+		byte[] C, D;
+		C = this.permutate(key, PC_1[0]);
+		D = this.permutate(key, PC_1[1]);
+
+		//Generate roundkeys
+		for (int x = 0; x < 16; ++x)
+		{
+			//Turn blocks to bin strings
+			String sC = Misc.byteToBinaryString(C);
+			String sD = Misc.byteToBinaryString(D);
+			
+			//Rotate left
+			if(leftShift[x]==1)
+			{
+				sC = sC.substring(1)+sC.charAt(0);
+				sD = sD.substring(1)+sD.charAt(0);
+			}
+			else
+			{
+				sC = sC.substring(2)+sC.charAt(0)+sC.charAt(1);
+				sD = sD.substring(2)+sD.charAt(0)+sD.charAt(1);
+			}
+			
+			C = Misc.binStringToByteArray(sC);
+			D = Misc.binStringToByteArray(sD);
+			
+			byte[] K = Misc.binStringToByteArray(sC+sD);
+			roundKey[x] = this.permutate(K, PC_2);
+			
+		}
+
+		return roundKey;
 	}
 
 	private byte[] f(byte[] R, byte[] K)

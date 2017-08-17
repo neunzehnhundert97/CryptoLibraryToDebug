@@ -22,7 +22,7 @@ public class DES_Test
 	@Test
 	public final void testDES() throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException
 	{
-		Cipher desCor = Cipher.getInstance("DES");
+		Cipher desCor = Cipher.getInstance("DES/ECB/NoPadding");
 		byte[] input = new byte[8];
 		for (int x = 0; x < 1000; ++x)
 		{
