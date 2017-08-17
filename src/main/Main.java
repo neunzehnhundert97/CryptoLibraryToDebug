@@ -12,15 +12,23 @@ public class Main
 
 	public static void main(String[] args)
 	{
-
-		if (args.length == 0)
+		
+		try
 		{
-			@SuppressWarnings("unused")
-			InteractiveIO iio = new InteractiveIO();
+			if (args.length == 0)
+			{
+				@SuppressWarnings("unused")
+				//InteractiveIO iio = new InteractiveIO();
+				Gui g = new Gui();
+			}
+			else
+			{
+				doAlgorithm(args);
+			}
 		}
-		else
+		catch (Exception e)
 		{
-			doAlgorithm(args);
+			e.printStackTrace();
 		}
 	}
 
