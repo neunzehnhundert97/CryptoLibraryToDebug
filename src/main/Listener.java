@@ -28,7 +28,7 @@ public class Listener implements WindowListener, MouseListener
 	@Override
 	public void windowClosing(WindowEvent arg0)
 	{
-		int option = JOptionPane.showConfirmDialog(null, "Shure you want to close?", "Close?", JOptionPane.YES_OPTION);
+		int option = JOptionPane.showConfirmDialog(null, "Sure you want to close?", "Close?", JOptionPane.YES_OPTION);
 		if (option == 0)
 		{
 			System.exit(0);
