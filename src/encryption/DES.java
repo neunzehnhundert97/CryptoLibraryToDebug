@@ -79,7 +79,6 @@ public class DES extends CryptionFunction
 		input = this.permutate(input, initialPermutation);
 
 		// Split input into L and R
-		// TODO Wirklich hintereinander?
 		byte[] L, R;
 		L = Arrays.copyOf(input, 4);
 		R = Arrays.copyOfRange(input, 4, 8);
@@ -131,8 +130,8 @@ public class DES extends CryptionFunction
 		for (int x = 0; x < 16; ++x)
 		{
 			//Turn blocks to bin strings
-			String sC = Misc.byteToBinaryString(C);
-			String sD = Misc.byteToBinaryString(D);
+			String sC = Misc.byteToBinaryString(C).substring(0, 28);
+			String sD = Misc.byteToBinaryString(D).substring(0, 28);;
 			
 			//Rotate left
 			if(leftShift[x]==1)
@@ -160,10 +159,10 @@ public class DES extends CryptionFunction
 	private byte[] f(byte[] R, byte[] K)
 	{
 		// E-Function
-		byte[] E = this.E(R);
+		byte[] E = this.permutate(R, this.E);
 
 		// XOR
-		for (int x = 0; x < R.length; ++x)
+		for (int x = 0; x < E.length; ++x)
 		{
 			E[x] ^= K[x];
 		}
@@ -175,20 +174,6 @@ public class DES extends CryptionFunction
 		E = this.permutate(E, fPermutation);
 
 		return E;
-	}
-
-	private byte[] E(byte[] in)
-	{
-		byte[] out = new byte[6];
-
-		for (int x = 0; x < E.length; ++x)
-		{
-			int pos = E[x] - 1;
-			if ((in[pos / 8] >>> (7 - (pos % 8)) & 1) == 1)
-				out[x / 8] |= 1 << (7 - x % 8);
-		}
-
-		return out;
 	}
 
 	private byte[] S(byte[] B)

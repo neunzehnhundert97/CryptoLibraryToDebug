@@ -6,5 +6,5 @@ if not, we used extern testing vectors.
 
 ## Hashing
 
-Every algorithm that is available in Java is tested against 10 randomly genrated testinputs,
-ranging from 0 to 10000 bytes input lengths
+Every algorithm that is available in Java is tested against 10 randomly generated testinputs,
+ranging from 0 to 10000 bytes input lengths.

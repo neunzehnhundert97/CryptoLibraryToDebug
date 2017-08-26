@@ -32,6 +32,7 @@ public class DES_Test
 			DES desTest = new DES(keyRaw, null, -1);
 			for (int y = 0; y < 100; y++)
 			{
+				System.out.println(x+" "+y);
 				for (int i = 0; i < 8; ++i)
 				{
 					input[i] = (byte) (Math.random() * 256);
