@@ -111,9 +111,6 @@ public class DES extends CryptionFunction
 	@Override
 	public byte[] decryption(byte[] input)
 	{
-
-		byte[] a1 = this.permutate(input, initialPermutation);
-
 		return null;
 	}
 
@@ -121,36 +118,37 @@ public class DES extends CryptionFunction
 	public byte[][] keySchedule(byte[] key)
 	{
 		roundKey = new byte[16][];
-		
+
 		byte[] C, D;
 		C = this.permutate(key, PC_1[0]);
 		D = this.permutate(key, PC_1[1]);
 
-		//Generate roundkeys
+		// Generate roundkeys
 		for (int x = 0; x < 16; ++x)
 		{
-			//Turn blocks to bin strings
+			// Turn blocks to bin strings
 			String sC = Misc.byteToBinaryString(C).substring(0, 28);
-			String sD = Misc.byteToBinaryString(D).substring(0, 28);;
-			
-			//Rotate left
-			if(leftShift[x]==1)
+			String sD = Misc.byteToBinaryString(D).substring(0, 28);
+			;
+
+			// Rotate left
+			if (leftShift[x] == 1)
 			{
-				sC = sC.substring(1)+sC.charAt(0);
-				sD = sD.substring(1)+sD.charAt(0);
+				sC = sC.substring(1) + sC.charAt(0);
+				sD = sD.substring(1) + sD.charAt(0);
 			}
 			else
 			{
-				sC = sC.substring(2)+sC.charAt(0)+sC.charAt(1);
-				sD = sD.substring(2)+sD.charAt(0)+sD.charAt(1);
+				sC = sC.substring(2) + sC.charAt(0) + sC.charAt(1);
+				sD = sD.substring(2) + sD.charAt(0) + sD.charAt(1);
 			}
-			
+
 			C = Misc.binStringToByteArray(sC);
 			D = Misc.binStringToByteArray(sD);
-			
-			byte[] K = Misc.binStringToByteArray(sC+sD);
+
+			byte[] K = Misc.binStringToByteArray(sC + sD);
 			roundKey[x] = this.permutate(K, PC_2);
-			
+
 		}
 
 		return roundKey;
@@ -181,11 +179,7 @@ public class DES extends CryptionFunction
 		byte[] out = new byte[4];
 
 		// Convert to binary String for better accessing
-		String sB = "";
-		for (byte b : B)
-		{
-			sB += Misc.byteToBinaryString(b);
-		}
+		String sB = Misc.byteToBinaryString(B);
 
 		// Iterate over the String in 6bit steps
 		for (int x = 0; x < 8; ++x)
@@ -204,6 +198,11 @@ public class DES extends CryptionFunction
 
 		return out;
 
+	}
+
+	public byte[] testPermutation(byte[] array)
+	{
+		return this.permutate(this.permutate(array, initialPermutation), this.reversePermutation);
 	}
 
 }
