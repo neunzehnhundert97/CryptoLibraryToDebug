@@ -69,14 +69,31 @@ public class DES extends CryptionFunction
 	public DES(byte[] key, StringBuilder output, int verbose)
 	{
 		super(key, output, verbose);
+
+		// Print key
+		this.writeOutput("Key", QUIET);
+		this.writeOutput(key, QUIET);
+		this.writeOutput("", QUIET);
+
 		this.roundKey = this.keySchedule(key);
+
 	}
 
 	@Override
 	public byte[] encryption(byte[] input)
 	{
+		// Print input
+		this.writeOutput("Input", QUIET);
+		this.writeOutput(input, QUIET);
+		this.writeOutput("", QUIET);
+
 		// Perform initial Permutation
 		input = this.permutate(input, initialPermutation);
+
+		// Print permutated input
+		this.writeOutput("After permutation (L,R)", INFORMATIVE);
+		this.writeOutput(input, INFORMATIVE);
+		this.writeOutput("", INFORMATIVE);
 
 		// Split input into L and R
 		byte[] L, R;
@@ -86,8 +103,15 @@ public class DES extends CryptionFunction
 		// Perform rounds
 		for (int x = 0; x < 16; ++x)
 		{
+			this.writeOutput("Round " + (x + 1), INFORMATIVE);
+
 			byte[] temp = R.clone();
+			this.writeOutput("f(R, K" + (x + 1) + ")", INFORMATIVE);
 			byte[] fR = this.f(R, this.roundKey[x]);
+
+			// Print f(r, K)
+			this.writeOutput(fR, INFORMATIVE);
+			this.writeOutput("", INFORMATIVE);
 
 			for (int y = 0; y < 4; ++y)
 			{
@@ -95,6 +119,15 @@ public class DES extends CryptionFunction
 			}
 
 			L = temp;
+
+			// Print new L and R
+			this.writeOutput("L", INFORMATIVE);
+			this.writeOutput(L, INFORMATIVE);
+			this.writeOutput("", INFORMATIVE);
+			this.writeOutput("R", INFORMATIVE);
+			this.writeOutput(R, INFORMATIVE);
+			this.writeOutput("", INFORMATIVE);
+
 		}
 
 		// Put L and R back together
@@ -104,6 +137,10 @@ public class DES extends CryptionFunction
 		// Perform inverse initial permutation
 		input = this.permutate(input, reversePermutation);
 
+		// Print output
+		this.writeOutput("Output", QUIET);
+		this.writeOutput(input, QUIET);
+
 		return input;
 
 	}
@@ -111,7 +148,67 @@ public class DES extends CryptionFunction
 	@Override
 	public byte[] decryption(byte[] input)
 	{
-		return null;
+		// Print input
+		this.writeOutput("Input", QUIET);
+		this.writeOutput(input, QUIET);
+		this.writeOutput("", QUIET);
+
+		// Perform initial Permutation
+		input = this.permutate(input, initialPermutation);
+
+		// Print permutated input
+		this.writeOutput("After permutation (L,R)", INFORMATIVE);
+		this.writeOutput(input, INFORMATIVE);
+		this.writeOutput("", INFORMATIVE);
+
+		// Split input into L and R
+		byte[] L, R;
+		L = Arrays.copyOf(input, 4);
+		R = Arrays.copyOfRange(input, 4, 8);
+
+		// Perform rounds
+		for (int x = 15; x >= 0; --x)
+		{
+			this.writeOutput("Round " + (x + 1), INFORMATIVE);
+
+			byte[] temp = R.clone();
+			this.writeOutput("f(R, K" + (x + 1) + ")", INFORMATIVE);
+			byte[] fR = this.f(R, this.roundKey[x]);
+
+			// Print f(r, K)
+			this.writeOutput(fR, INFORMATIVE);
+			this.writeOutput("", INFORMATIVE);
+
+			for (int y = 0; y < 4; ++y)
+			{
+				R[y] = (byte) (fR[y] ^ L[y]);
+			}
+
+			L = temp;
+
+			// Print new L and R
+			this.writeOutput("L", INFORMATIVE);
+			this.writeOutput(L, INFORMATIVE);
+			this.writeOutput("", INFORMATIVE);
+			this.writeOutput("R", INFORMATIVE);
+			this.writeOutput(R, INFORMATIVE);
+			this.writeOutput("", INFORMATIVE);
+
+		}
+
+		// Put L and R back together
+		System.arraycopy(R, 0, input, 0, 4);
+		System.arraycopy(L, 0, input, 4, 4);
+
+		// Perform inverse initial permutation
+		input = this.permutate(input, reversePermutation);
+
+		// Print output
+		this.writeOutput("Output", QUIET);
+		this.writeOutput(input, QUIET);
+
+		return input;
+
 	}
 
 	@Override
@@ -119,9 +216,18 @@ public class DES extends CryptionFunction
 	{
 		roundKey = new byte[16][];
 
+		this.writeOutput("Key schedule", INFORMATIVE);
+		this.writeOutput("", INFORMATIVE);
+
 		byte[] C, D;
 		C = this.permutate(key, PC_1[0]);
 		D = this.permutate(key, PC_1[1]);
+
+		this.writeOutput("Initial key permutation", EXCESSIVE);
+		this.writeOutput("C:", EXCESSIVE);
+		this.writeOutput(C, EXCESSIVE);
+		this.writeOutput("D:", EXCESSIVE);
+		this.writeOutput(D, EXCESSIVE);
 
 		// Generate roundkeys
 		for (int x = 0; x < 16; ++x)
@@ -149,6 +255,11 @@ public class DES extends CryptionFunction
 			byte[] K = Misc.binStringToByteArray(sC + sD);
 			roundKey[x] = this.permutate(K, PC_2);
 
+			// Print roundkey
+			this.writeOutput("K" + (x + 1), INFORMATIVE);
+			this.writeOutput(roundKey[x], INFORMATIVE);
+			this.writeOutput("", INFORMATIVE);
+
 		}
 
 		return roundKey;
@@ -158,18 +269,33 @@ public class DES extends CryptionFunction
 	{
 		// E-Function
 		byte[] E = this.permutate(R, this.E);
+		this.writeOutput("", EXCESSIVE);
+		this.writeOutput("After E permutation", EXCESSIVE);
+		this.writeOutput(E, EXCESSIVE);
+		this.writeOutput("", EXCESSIVE);
 
 		// XOR
 		for (int x = 0; x < E.length; ++x)
 		{
 			E[x] ^= K[x];
 		}
+		
+		this.writeOutput("XORed with key", EXCESSIVE);
+		this.writeOutput(E, EXCESSIVE);
+		this.writeOutput("", EXCESSIVE);
 
 		// S-Boxes
 		E = this.S(E);
+		
+		this.writeOutput("Substituted", EXCESSIVE);
+		this.writeOutput(E, EXCESSIVE);
+		this.writeOutput("", EXCESSIVE);
 
 		// Permutation
 		E = this.permutate(E, fPermutation);
+		
+		this.writeOutput("Permutated", EXCESSIVE);
+		this.writeOutput("", EXCESSIVE);
 
 		return E;
 	}
