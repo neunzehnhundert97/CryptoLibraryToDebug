@@ -125,7 +125,7 @@ public class Gui extends JFrame
 
 		String[] algorithm_categories =
 		{ "---", "Hash", "Crypto", "Misc" };
-		JComboBox<String> algorithm_categories_comboBox = new JComboBox<String>(algorithm_categories);
+		algorithm_categories_comboBox = new JComboBox<String>(algorithm_categories);
 		algorithm_categories_comboBox.setPreferredSize(new Dimension(400, 100));
 		algorithm_categories_comboBox.addActionListener(listener);
 		option_panel.add(algorithm_categories_comboBox);
@@ -137,10 +137,11 @@ public class Gui extends JFrame
 
 		String[] algorithms =
 		{ "---", "hash1", "hash2", "hash3" };
-		JComboBox<String> algorithms_comboBox = new JComboBox<String>(algorithms);
+		algorithms_comboBox = new JComboBox<String>(algorithms);
 		algorithms_comboBox.setPreferredSize(new Dimension(400, 100));
 		algorithms_comboBox.setVisible(false);
 		option_panel.add(algorithms_comboBox);
+		
 
 		// algorithm_categories_comboBox.removeAllItems();
 		// algorithm_categories_comboBox.addItem("test");
