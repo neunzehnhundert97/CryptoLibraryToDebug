@@ -1,14 +1,17 @@
 package main;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
-public class Listener implements WindowListener, MouseListener
+public class Listener implements WindowListener, MouseListener, ActionListener
 {
 	Gui g;
 
@@ -87,4 +90,17 @@ public class Listener implements WindowListener, MouseListener
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0)
+	{
+		System.out.println("action Event");
+		// TODO Auto-generated method stub
+		JComboBox tmp = (JComboBox)arg0.getSource();
+		String choosed = (String)tmp.getSelectedItem();
+		System.out.println(choosed);
+		
+		g.comboBox_handler(choosed);
+	}
+	
 }
