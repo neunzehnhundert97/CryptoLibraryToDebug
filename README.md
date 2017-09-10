@@ -35,10 +35,10 @@ All algorithms listed here have been succesfully validated with the testcases in
 ## Planned Algorithms
 
 * Encryption
-	* Vigenère
+	* ...
 
 * Hashing
-	* SHA-3
+	* ...
 
 * Misc
 	* Square-and-Multiply
