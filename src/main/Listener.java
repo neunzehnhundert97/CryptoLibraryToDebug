@@ -36,7 +36,6 @@ public class Listener implements WindowListener, MouseListener, ActionListener
 		{
 			System.exit(0);
 		}
-		// TODO Auto-generated method stub
 
 	}
 
@@ -66,41 +65,35 @@ public class Listener implements WindowListener, MouseListener, ActionListener
 	@Override
 	public void mouseEntered(MouseEvent e)
 	{
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e)
 	{
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e)
 	{
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e)
 	{
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0)
 	{
-		System.out.println("action Event");
-		// TODO Auto-generated method stub
-		JComboBox tmp = (JComboBox)arg0.getSource();
-		String choosed = (String)tmp.getSelectedItem();
-		System.out.println(choosed);
-		
+		// System.out.println("action Event");
+		JComboBox tmp = (JComboBox) arg0.getSource();
+		String choosed = (String) tmp.getSelectedItem();
+		// System.out.println(choosed);
 		g.comboBox_handler(choosed);
 	}
-	
+
 }

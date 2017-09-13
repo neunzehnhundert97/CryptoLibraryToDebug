@@ -13,11 +13,21 @@ import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSlider;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 public class Gui extends JFrame
 {
+	private String[] algorithm_categories =
+	{ "Please choose a category", "Hash", "Crypto", "Misc" };
+	private String[] hashAlgorithms =
+	{ "Please choose a algorithm", "MD2", "MD5", "SHA-1", "SHA-2", "SHA-3" };
+	private String[] cryptoAlgorithms =
+	{ "Please choose a algorithm", "DES", "AES" };
+	private String[] miscAlgorithms =
+	{ "Please choose a algorithms", "Square-and-Multiply", "Double-and-Add", "Extended Euclidian Algorithm" };
+
 	private static final long serialVersionUID = 1L;
 
 	private Listener listener;
@@ -30,9 +40,14 @@ public class Gui extends JFrame
 	private JLabel algorithms_label;
 
 	private JPanel option_panel;
-	
+
 	private JComboBox<String> algorithm_categories_comboBox;
 	private JComboBox<String> algorithms_comboBox;
+
+	private JSlider verboseLevel_slider;
+
+	private boolean algorithm_categories_firstCall = true;
+	private boolean algorithms_firstCall = true;
 
 	public Gui()
 	{
@@ -76,17 +91,46 @@ public class Gui extends JFrame
 
 	public void comboBox_handler(String s)
 	{
-		algorithms_comboBox.setVisible(true);
-		//algorithm_categories_comboBox.removeAllItems();
-		//algorithm_categories_comboBox.addItem("Hash");
-		//algorithm_categories_comboBox.addItem("Crypto");
-		
-		
+		System.out.println("combobox_handler");
+		if (algorithm_categories_firstCall)
+		{
+			System.out.println("firstcall");
+			algorithm_categories_firstCall = false;
+			algorithms_comboBox.setVisible(true);
+			algorithms_label.setVisible(true);
+			algorithm_categories_comboBox.removeItem("Please choose a category");
+		}
+		// algorithm_categories_comboBox.removeAllItems();
+		// algorithm_categories_comboBox.addItem("Hash");
+		// algorithm_categories_comboBox.addItem("Crypto");
+		// algorithm_categories_comboBox.addItem("Misc");
+
 		switch (s)
 		{
 		case "Hash":
-			System.out.println("comboBox_handler");
-			
+			System.out.println("Hash");
+
+			algorithms_comboBox.removeAllItems();
+			for (int i = 0; i < hashAlgorithms.length; i++)
+			{
+				algorithms_comboBox.addItem(hashAlgorithms[i]);
+			}
+			break;
+		case "Crypto":
+			System.out.println("Crypto");
+			algorithms_comboBox.removeAllItems();
+			for (int i = 0; i < cryptoAlgorithms.length; i++)
+			{
+				algorithms_comboBox.addItem(cryptoAlgorithms[i]);
+			}
+			break;
+		case "Misc":
+			System.out.println("Misc");
+			algorithms_comboBox.removeAllItems();
+			for (int i = 0; i < miscAlgorithms.length; i++)
+			{
+				algorithms_comboBox.addItem(miscAlgorithms[i]);
+			}
 			break;
 		}
 	}
@@ -103,7 +147,7 @@ public class Gui extends JFrame
 		this.place_middle(1000, 750);
 
 		option_panel = new JPanel();
-		option_panel.setLayout(new GridLayout(20, 1));
+		option_panel.setLayout(new GridLayout(15, 1));
 		option_panel.setPreferredSize(new Dimension(250, 100));
 
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -123,8 +167,6 @@ public class Gui extends JFrame
 		categories_label = new JLabel("Categories:");
 		option_panel.add(categories_label);
 
-		String[] algorithm_categories =
-		{ "---", "Hash", "Crypto", "Misc" };
 		algorithm_categories_comboBox = new JComboBox<String>(algorithm_categories);
 		algorithm_categories_comboBox.setPreferredSize(new Dimension(400, 100));
 		algorithm_categories_comboBox.addActionListener(listener);
@@ -135,13 +177,19 @@ public class Gui extends JFrame
 		algorithms_label.setVisible(false);
 		option_panel.add(algorithms_label);
 
-		String[] algorithms =
-		{ "---", "hash1", "hash2", "hash3" };
-		algorithms_comboBox = new JComboBox<String>(algorithms);
+		//String[] algorithms = hashAlgorithms;
+		algorithms_comboBox = new JComboBox<String>();
 		algorithms_comboBox.setPreferredSize(new Dimension(400, 100));
-		algorithms_comboBox.setVisible(false);
+		algorithms_comboBox.addActionListener(listener);
+		algorithms_comboBox.setVisible(true);
 		option_panel.add(algorithms_comboBox);
-		
+
+		verboseLevel_slider = new JSlider(JSlider.HORIZONTAL, 0, 4, 0);
+		verboseLevel_slider.setMajorTickSpacing(1);
+		verboseLevel_slider.setPaintTicks(true);
+		verboseLevel_slider.setPaintLabels(true);
+		verboseLevel_slider.setVisible(false);
+		option_panel.add(verboseLevel_slider);
 
 		// algorithm_categories_comboBox.removeAllItems();
 		// algorithm_categories_comboBox.addItem("test");
