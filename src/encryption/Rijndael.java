@@ -1,12 +1,17 @@
 package encryption;
 
-public class AES extends CryptionFunction
+public class Rijndael extends CryptionFunction
 {
 
-	public AES(byte[] key, StringBuilder output, int verbose)
+	private int version;
+	
+	public Rijndael(byte[] key, int version, StringBuilder output, int verbose)
 	{
+		//Call constructor of superclass
 		super(key, output, verbose);
-		// TODO Auto-generated constructor stub
+		
+		//Save version
+		this.version = version;
 	}
 
 	@Override
