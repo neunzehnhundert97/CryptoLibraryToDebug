@@ -12,7 +12,6 @@ public class SHA1 extends HashFunction
 	public SHA1(StringBuilder output, int verbose)
 	{
 		super(output, verbose);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
