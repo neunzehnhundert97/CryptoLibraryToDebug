@@ -2,8 +2,6 @@ package hash;
 
 import java.util.Arrays;
 
-import com.sun.rmi.rmid.ExecOptionPermission;
-
 public class MD2 extends HashFunction
 {
 

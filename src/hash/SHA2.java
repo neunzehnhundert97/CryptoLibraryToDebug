@@ -377,8 +377,6 @@ public class SHA2 extends HashFunction
 		writeOutput("", INFORMATIVE);
 		writeOutput("Padded input (" + input.length + " Bytes)", INFORMATIVE);
 		writeOutput(input, INFORMATIVE);
-
-		return;
 	}
 
 	// Methods for SHA224 and SHA256

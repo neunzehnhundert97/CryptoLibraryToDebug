@@ -2,15 +2,13 @@ package hash;
 
 import java.util.Arrays;
 
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
-
 import miscFunctions.Misc;
 
 public class Keccak extends HashFunction
 {
 
 	// Keccak parameters
-	private int b, w, l, c, r, d;
+	private int b, w, l, c, r, d, n;
 
 	private byte[] state;
 
@@ -27,6 +25,7 @@ public class Keccak extends HashFunction
 		this.c = 2 * d;
 		this.r = b - c;
 		this.d = d;
+		this.n = 12 + 2 * l;
 
 		// Initialize state
 		state = new byte[b / 8];
@@ -37,14 +36,23 @@ public class Keccak extends HashFunction
 	{
 		this.input = input;
 
-		// Pad
+		// Print input
+		this.writeOutput("Input (" + input.length + " Bytes)", QUIET);
+		this.writeOutput(input, QUIET);
+
+		// Padding
 		this.padding();
 
 		// Process
 		this.absorb();
 
 		// Squeeze out one output
-		return Arrays.copyOf(this.squeeze(), d / 8);
+		byte[] digest = Arrays.copyOf(this.squeeze(), d / 8);
+
+		writeOutput("Digest", QUIET);
+		writeOutput(digest, QUIET);
+
+		return digest;
 	}
 
 	private void absorb()
@@ -61,12 +69,18 @@ public class Keccak extends HashFunction
 				state[x] ^= block[x];
 			}
 
+			this.fFunction();
+
+			writeOutput("\n", QUIET);
+			writeOutput("State", INFORMATIVE);
+			writeOutput(state, INFORMATIVE);
+
 		}
 	}
 
 	private byte[] squeeze()
 	{
-		return null;
+		return new byte[0];
 	}
 
 	private void padding()
@@ -87,17 +101,32 @@ public class Keccak extends HashFunction
 		}
 		else
 		{
-			paddedInput[length] = (byte) 0x80;
-			paddedInput[length] = 1;
+			paddedInput[0] = (byte) 0x80;
+			paddedInput[paddedInput.length - 1] = 1;
 		}
 
 		// Save padded input
 		input = paddedInput;
+
+		writeOutput("", INFORMATIVE);
+		writeOutput("Padded input (" + input.length + " Bytes)", INFORMATIVE);
+		writeOutput(input, INFORMATIVE);
 	}
 
 	private void fFunction()
 	{
+		boolean[][][] A = this.bytesToState(state);
 
+		for (int i = 12 + 2 * l - n; i < 12 + 2 * l; ++i)
+		{
+			A = theta(A);
+			A = rho(A);
+			A = pi(A);
+			A = chi(A);
+			A = iota(A, i);
+		}
+
+		state = this.stateToByte(A);
 	}
 
 	private boolean[][][] theta(boolean[][][] A)
@@ -143,26 +172,113 @@ public class Keccak extends HashFunction
 
 	private boolean[][][] rho(boolean[][][] A)
 	{
-		return A;
+		// Prepare arrays
+		boolean[][][] tempA = new boolean[5][5][w];
+
+		for (int z = 0; z < w; ++z)
+		{
+			tempA[0][0][z] = A[0][0][z];
+		}
+
+		int x = 1, y = 0;
+
+		for (int t = 0; t < 24; ++t)
+		{
+			for (int z = 0; z < w; ++z)
+			{
+				// Adding multiple of w to get a positive value to be reduced
+				tempA[x][y][z] = A[x][y][((z - (t + 1) * (t + 2) / 2) + 10 * w) % w];
+				int xTemp = x;
+				x = y;
+				y = (2 * xTemp + 3 * y) % 5;
+			}
+		}
+
+		return tempA;
 
 	}
 
 	private boolean[][][] pi(boolean[][][] A)
 	{
-		return A;
+		// Prepare arrays
+		boolean[][][] tempA = new boolean[5][5][w];
+
+		for (int x = 0; x < 5; ++x)
+		{
+			for (int y = 0; y < 5; ++y)
+			{
+				for (int z = 0; z < w; ++z)
+				{
+					tempA[x][y][y] = A[(x + 3 * y) % 5][y][z];
+				}
+			}
+		}
+
+		return tempA;
 
 	}
 
 	private boolean[][][] chi(boolean[][][] A)
 	{
-		return A;
+		// Prepare arrays
+		boolean[][][] tempA = new boolean[5][5][w];
+
+		for (int x = 0; x < 5; ++x)
+		{
+			for (int y = 0; y < 5; ++y)
+			{
+				for (int z = 0; z < w; ++z)
+				{
+					tempA[x][y][y] = A[x][y][z] ^ ((!A[(x + 1) % 5][y][z]) & (A[(x + 2) % 2][y][z]));
+				}
+			}
+		}
+
+		return tempA;
 
 	}
 
-	private boolean[][][] iota(boolean[][][] A)
+	private boolean[][][] iota(boolean[][][] A, int ir)
 	{
-		return A;
+		// Prepare arrays
+		boolean[][][] tempA = A.clone();
+		boolean[] RC = new boolean[w];
 
+		for (int x = 0; x <= l; ++x)
+		{
+			RC[(int) (Math.pow(2, x) - 1)] = this.rc(x + 7 * ir);
+		}
+
+		for (int z = 0; z < w; ++z)
+		{
+			tempA[0][0][z] ^= RC[z];
+		}
+
+		return tempA;
+
+	}
+
+	private boolean rc(int t)
+	{
+		if (t % 255 == 0)
+			return true;
+
+		boolean[] RMain =
+		{ true, false, false, false, false, false, false, false };
+
+		for (int x = 1; x <= t % 255; ++x)
+		{
+			boolean[] R = new boolean[9];
+			R[0] = false;
+			System.arraycopy(RMain, 0, R, 1, 8);
+			R[0] ^= R[8];
+			R[4] ^= R[8];
+			R[5] ^= R[8];
+			R[6] ^= R[8];
+			System.arraycopy(R, 0, RMain, 0, 8);
+		}
+
+		return RMain[0];
 	}
 
 	private boolean[][][] bytesToState(byte[] bytes)
