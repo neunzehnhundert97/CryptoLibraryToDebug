@@ -8,7 +8,7 @@ If you look for it, you can also find the official collection of [test vectors](
 
 ***
 
-* [MD2] (https://www.ietf.org/rfc/rfc1319.txt "RFC 1319")
+* [MD2](https://www.ietf.org/rfc/rfc1319.txt "RFC 1319")
 
 MD2 was very easy to implement, I got it to work for inputs up to 15 byte in just a few hours. The only problem an error in the checksum when the input length reached 16 bytes. As I compared the algorithms description with its reference implementation I noticed a difference between them. The description says for the checksums loop
 
@@ -27,7 +27,7 @@ So there is basically a mistake in the documentation you should take into accoun
 
 ***
 
-* [MD5] (https://www.ietf.org/rfc/rfc1321.txt "RFC 1321")
+* [MD5](https://www.ietf.org/rfc/rfc1321.txt "RFC 1321")
 
 MD5 is a little bit harder than MD2 just because you can't but everything in a simple loop. Be cautious when you copy and paste and you won't have much trouble.
 
