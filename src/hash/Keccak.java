@@ -10,6 +10,8 @@ public class Keccak extends HashFunction
 	// Keccak parameters
 	private int b, w, l, c, r, d, n;
 
+	private boolean firstSqueeze = true;
+
 	private byte[] state;
 
 	public Keccak(int b, int d, StringBuilder output, int verbose)
@@ -38,7 +40,7 @@ public class Keccak extends HashFunction
 
 		// Print input
 		this.writeOutput("Input (" + input.length + " Bytes)", QUIET);
-		this.writeOutput(input, QUIET);
+		this.writeOutputKeccak(input, QUIET);
 
 		// Padding
 		this.padding();
@@ -50,7 +52,7 @@ public class Keccak extends HashFunction
 		byte[] digest = Arrays.copyOf(this.squeeze(), d / 8);
 
 		writeOutput("Digest", QUIET);
-		writeOutput(digest, QUIET);
+		writeOutputKeccak(digest, QUIET);
 
 		return digest;
 	}
@@ -63,24 +65,33 @@ public class Keccak extends HashFunction
 			byte[] block = new byte[r / 8];
 			System.arraycopy(input, n * (r / 8), block, 0, r / 8);
 
+			writeOutput("\n", INFORMATIVE);
+			writeOutput("Block " + (n + 1), INFORMATIVE);
+
 			// XOR block
 			for (int x = 0; x < r / 8; ++x)
 			{
 				state[x] ^= block[x];
 			}
 
+			writeOutput("XORed block", INFORMATIVE);
+			writeOutputKeccak(state, INFORMATIVE);
+
 			this.fFunction();
-
-			writeOutput("\n", QUIET);
-			writeOutput("State", INFORMATIVE);
-			writeOutput(state, INFORMATIVE);
-
 		}
 	}
 
 	private byte[] squeeze()
 	{
-		return new byte[0];
+		if (firstSqueeze)
+		{
+			// Do Squeezing
+			firstSqueeze = false;
+			return Arrays.copyOf(state, r / 8);
+		}
+
+		return null;
+
 	}
 
 	private void padding()
@@ -101,7 +112,8 @@ public class Keccak extends HashFunction
 		}
 		else
 		{
-			paddedInput[0] = (byte) 0x80;
+			// TODO !!!!!
+			paddedInput[length] = (byte) 0b01100000;
 			paddedInput[paddedInput.length - 1] = 1;
 		}
 
@@ -110,7 +122,7 @@ public class Keccak extends HashFunction
 
 		writeOutput("", INFORMATIVE);
 		writeOutput("Padded input (" + input.length + " Bytes)", INFORMATIVE);
-		writeOutput(input, INFORMATIVE);
+		writeOutputKeccak(input, INFORMATIVE);
 	}
 
 	private void fFunction()
@@ -119,11 +131,32 @@ public class Keccak extends HashFunction
 
 		for (int i = 12 + 2 * l - n; i < 12 + 2 * l; ++i)
 		{
+			writeOutput("", EXCESSIVE);
+			writeOutput("f(" + i + ")", EXCESSIVE);
+
 			A = theta(A);
+			writeOutput("Theta", EXCESSIVE);
+			writeOutputKeccak(this.stateToByte(A), EXCESSIVE);
+
 			A = rho(A);
+			writeOutput("", EXCESSIVE);
+			writeOutput("Rho", EXCESSIVE);
+			writeOutputKeccak(this.stateToByte(A), EXCESSIVE);
+
 			A = pi(A);
+			writeOutput("", EXCESSIVE);
+			writeOutput("Pi", EXCESSIVE);
+			writeOutputKeccak(this.stateToByte(A), EXCESSIVE);
+
 			A = chi(A);
+			writeOutput("", EXCESSIVE);
+			writeOutput("Chi", EXCESSIVE);
+			writeOutputKeccak(this.stateToByte(A), EXCESSIVE);
+
 			A = iota(A, i);
+			writeOutput("", EXCESSIVE);
+			writeOutput("Iota", EXCESSIVE);
+			writeOutputKeccak(this.stateToByte(A), EXCESSIVE);
 		}
 
 		state = this.stateToByte(A);
@@ -187,11 +220,11 @@ public class Keccak extends HashFunction
 			for (int z = 0; z < w; ++z)
 			{
 				// Adding multiple of w to get a positive value to be reduced
-				tempA[x][y][z] = A[x][y][((z - (t + 1) * (t + 2) / 2) + 10 * w) % w];
-				int xTemp = x;
-				x = y;
-				y = (2 * xTemp + 3 * y) % 5;
+				tempA[x][y][z] = A[x][y][((z - (t + 1) * (t + 2) / 2) + 5 * w) % w];
 			}
+			int xTemp = x;
+			x = y;
+			y = (2 * xTemp + 3 * y) % 5;
 		}
 
 		return tempA;
@@ -209,7 +242,7 @@ public class Keccak extends HashFunction
 			{
 				for (int z = 0; z < w; ++z)
 				{
-					tempA[x][y][y] = A[(x + 3 * y) % 5][y][z];
+					tempA[x][y][z] = A[(x + 3 * y) % 5][x][z];
 				}
 			}
 		}
@@ -229,7 +262,7 @@ public class Keccak extends HashFunction
 			{
 				for (int z = 0; z < w; ++z)
 				{
-					tempA[x][y][y] = A[x][y][z] ^ ((!A[(x + 1) % 5][y][z]) & (A[(x + 2) % 2][y][z]));
+					tempA[x][y][z] = A[x][y][z] ^ ((A[(x + 1) % 5][y][z] ^ true) & (A[(x + 2) % 5][y][z]));
 				}
 			}
 		}
@@ -319,7 +352,7 @@ public class Keccak extends HashFunction
 			}
 		}
 
-		return new String(bitString).getBytes();
+		return Misc.binStringToByteArray(new String(bitString));
 	}
 
 	public static Keccak getSHA3_224(StringBuilder output, int verbose)

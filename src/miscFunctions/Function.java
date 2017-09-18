@@ -81,6 +81,32 @@ public abstract class Function
 			output.append('\n');
 		}
 	}
+	
+	protected void writeOutputKeccak(byte[] array, int verboseLevel)
+	{
+		if (verboseLevel <= this.verbose)
+		{
+			this.intend(verboseLevel);
+			for (int x = 0; x < array.length; ++x)
+			{
+				output.append(String.format("%02X", Integer.reverse(array[x])>>>24));
+				if (x % 64 == 63 && x != array.length - 1)
+				{
+					output.append("\n\n");
+					this.intend(verboseLevel);
+				}
+				else if (x % 16 == 15)
+				{
+					output.append("\n");
+					this.intend(verboseLevel);
+				}
+				else if (x % 4 == 3)
+					output.append(" ");
+			}
+
+			output.append('\n');
+		}
+	}
 
 	protected void writeOutput(int[] array, int verboseLevel)
 	{
