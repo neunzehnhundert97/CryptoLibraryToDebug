@@ -47,4 +47,4 @@ SHA-2 is not really harder than SHA-1. If you want to program all four variation
 
 * [SHA-3](http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.202.pdf "FIPS PUB 202")
 
-Of all hash functions feature until now, SHA-3 or Keccak had the hardest to read publication.
+Of all hash functions feature until now, SHA-3 or Keccak had the hardest to read publication. In- and output  have to be reversed byte-wise for the algorithm to work and all intermediate values are also show reversed. The trickiest part will be the optimization of the 5x5xw matrix, but this is up to you.

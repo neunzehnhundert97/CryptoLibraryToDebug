@@ -16,7 +16,7 @@ We will prepare releases with a compiled .jar-File as the project progresses. Yo
 
 ## Available Algorithms
 
-All algorithms listed here have been succesfully validated with the testcases in the package "test".
+All algorithms listed here have been succesfully validated with the testcases in the package "test" or the referred test vectors.
 
 * Encryption
 	* DES
@@ -26,11 +26,11 @@ All algorithms listed here have been succesfully validated with the testcases in
 	* MD5
 	* SHA-1
 	* SHA-2
+	* [SHA-3 (Keccak)](https://www.di-mgt.com.au/sha_testvectors.html "SHA-3 Test vectors")
 
 ## WIP Algorithms
 
 * AES
-* SHA-3
 
 ## Planned Algorithms
 
@@ -48,5 +48,5 @@ All algorithms listed here have been succesfully validated with the testcases in
 ## Sidenote
 
 Feel free to use our code in your project, but we encourage you to rather write your own implementation.
-Mainly because we did not spend any time in cleaning or optimizing it, but also because you benifit more
+Mainly because we did not spend any time in cleaning or optimizing it, but also because you benefit more
 by doing stuff like this yourself.

@@ -9,12 +9,17 @@ public class Keccak extends HashFunction
 
 	// Keccak parameters
 	private int b, w, l, c, r, d, n;
+	private int mode;
+
+	// Constants
+	public static final int SHA3 = 1;
+	public static final int SHAKE = 2;
 
 	private boolean firstSqueeze = true;
 
 	private byte[] state;
 
-	public Keccak(int b, int d, StringBuilder output, int verbose)
+	public Keccak(int b, int d, int mode, StringBuilder output, int verbose)
 	{
 		// Call constructor of superclass
 		super(output, verbose);
@@ -28,6 +33,7 @@ public class Keccak extends HashFunction
 		this.r = b - c;
 		this.d = d;
 		this.n = 12 + 2 * l;
+		this.mode = mode;
 
 		// Initialize state
 		state = new byte[b / 8];
@@ -36,7 +42,7 @@ public class Keccak extends HashFunction
 	@Override
 	public byte[] digest(byte[] input)
 	{
-		this.input = input;
+		this.input = Misc.revBytes(input);
 
 		// Print input
 		this.writeOutput("Input (" + input.length + " Bytes)", QUIET);
@@ -51,10 +57,11 @@ public class Keccak extends HashFunction
 		// Squeeze out one output
 		byte[] digest = Arrays.copyOf(this.squeeze(), d / 8);
 
+		writeOutput("", QUIET);
 		writeOutput("Digest", QUIET);
 		writeOutputKeccak(digest, QUIET);
 
-		return digest;
+		return Misc.revBytes(digest);
 	}
 
 	private void absorb()
@@ -77,6 +84,7 @@ public class Keccak extends HashFunction
 			writeOutput("XORed block", INFORMATIVE);
 			writeOutputKeccak(state, INFORMATIVE);
 
+			// Perform f function
 			this.fFunction();
 		}
 	}
@@ -85,12 +93,14 @@ public class Keccak extends HashFunction
 	{
 		if (firstSqueeze)
 		{
-			// Do Squeezing
+			// The first output is the current state so no squeezing needed
 			firstSqueeze = false;
 			return Arrays.copyOf(state, r / 8);
 		}
 
-		return null;
+		this.fFunction();
+
+		return Arrays.copyOf(state, r / 8);
 
 	}
 
@@ -99,7 +109,7 @@ public class Keccak extends HashFunction
 		// Define local variables
 		int length = input.length;
 		int blockSize = r;
-		int blocks = (int) (Math.floor(length / blockSize) + 1);
+		int blocks = (int) (Math.floor(length / (blockSize / 8)) + 1);
 
 		// Prepare new array
 		byte[] paddedInput = new byte[blocks * blockSize / 8];
@@ -108,12 +118,36 @@ public class Keccak extends HashFunction
 		// Check special case when there is only one byte padding
 		if (blockSize / 8 - length == 1)
 		{
-			paddedInput[paddedInput.length - 1] = (byte) 0x81;
+			// Decide which padding to use
+			// This is the padding and the M || 01
+			switch (this.mode)
+			{
+			case SHA3:
+				paddedInput[paddedInput.length - 1] = (byte) 0b01100001;
+				break;
+			case SHAKE:
+				paddedInput[paddedInput.length - 1] = (byte) 0b11111001;
+				break;
+			default:
+				paddedInput[paddedInput.length - 1] = (byte) 0b10000001;
+			}
 		}
 		else
 		{
 			// TODO !!!!!
-			paddedInput[length] = (byte) 0b01100000;
+			// Decide which padding to use
+			// This is the padding and the M || 01
+			switch (this.mode)
+			{
+			case SHA3:
+				paddedInput[length] = (byte) 0b01100000;
+				break;
+			case SHAKE:
+				paddedInput[length] = (byte) 0b11111000;
+				break;
+			default:
+				paddedInput[length] = (byte) 0b10000000;
+			}
 			paddedInput[paddedInput.length - 1] = 1;
 		}
 
@@ -127,8 +161,10 @@ public class Keccak extends HashFunction
 
 	private void fFunction()
 	{
+		// Convert state to 5x5xw matrix
 		boolean[][][] A = this.bytesToState(state);
 
+		// Perform rounds of f
 		for (int i = 12 + 2 * l - n; i < 12 + 2 * l; ++i)
 		{
 			writeOutput("", EXCESSIVE);
@@ -159,6 +195,7 @@ public class Keccak extends HashFunction
 			writeOutputKeccak(this.stateToByte(A), EXCESSIVE);
 		}
 
+		// Return to normal representation
 		state = this.stateToByte(A);
 	}
 
@@ -215,6 +252,7 @@ public class Keccak extends HashFunction
 
 		int x = 1, y = 0;
 
+		// t loop
 		for (int t = 0; t < 24; ++t)
 		{
 			for (int z = 0; z < w; ++z)
@@ -236,6 +274,7 @@ public class Keccak extends HashFunction
 		// Prepare arrays
 		boolean[][][] tempA = new boolean[5][5][w];
 
+		// Loop
 		for (int x = 0; x < 5; ++x)
 		{
 			for (int y = 0; y < 5; ++y)
@@ -256,6 +295,7 @@ public class Keccak extends HashFunction
 		// Prepare arrays
 		boolean[][][] tempA = new boolean[5][5][w];
 
+		// Loop
 		for (int x = 0; x < 5; ++x)
 		{
 			for (int y = 0; y < 5; ++y)
@@ -277,11 +317,13 @@ public class Keccak extends HashFunction
 		boolean[][][] tempA = A.clone();
 		boolean[] RC = new boolean[w];
 
+		// Fill array
 		for (int x = 0; x <= l; ++x)
 		{
 			RC[(int) (Math.pow(2, x) - 1)] = this.rc(x + 7 * ir);
 		}
 
+		// Loop
 		for (int z = 0; z < w; ++z)
 		{
 			tempA[0][0][z] ^= RC[z];
@@ -296,11 +338,14 @@ public class Keccak extends HashFunction
 		if (t % 255 == 0)
 			return true;
 
+		// Prepare boolean array
 		boolean[] RMain =
 		{ true, false, false, false, false, false, false, false };
 
+		// Loop
 		for (int x = 1; x <= t % 255; ++x)
 		{
+			// Add zero in front
 			boolean[] R = new boolean[9];
 			R[0] = false;
 			System.arraycopy(RMain, 0, R, 1, 8);
@@ -308,6 +353,7 @@ public class Keccak extends HashFunction
 			R[4] ^= R[8];
 			R[5] ^= R[8];
 			R[6] ^= R[8];
+			// Truncate
 			System.arraycopy(R, 0, RMain, 0, 8);
 		}
 
@@ -355,24 +401,25 @@ public class Keccak extends HashFunction
 		return Misc.binStringToByteArray(new String(bitString));
 	}
 
+	// Load with standard parameters
 	public static Keccak getSHA3_224(StringBuilder output, int verbose)
 	{
-		return new Keccak(1600, 224, output, verbose);
+		return new Keccak(1600, 224, SHA3, output, verbose);
 	}
 
 	public static Keccak getSHA3_256(StringBuilder output, int verbose)
 	{
-		return new Keccak(1600, 256, output, verbose);
+		return new Keccak(1600, 256, SHA3, output, verbose);
 	}
 
 	public static Keccak getSHA3_384(StringBuilder output, int verbose)
 	{
-		return new Keccak(1600, 384, output, verbose);
+		return new Keccak(1600, 384, SHA3, output, verbose);
 	}
 
 	public static Keccak getSHA3_512(StringBuilder output, int verbose)
 	{
-		return new Keccak(1600, 512, output, verbose);
+		return new Keccak(1600, 512, SHA3, output, verbose);
 	}
 
 }

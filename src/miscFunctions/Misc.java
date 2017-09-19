@@ -31,6 +31,8 @@ public class Misc
 		System.out.println();
 	}
 
+	// Converts an array of integers into an array of bytes
+	// Example 0x12345678 => 0x12, 0x34, 0x56, 0x78
 	public static byte[] getBytes(int[] array)
 	{
 		byte[] bytes = new byte[array.length * 4];
@@ -46,6 +48,7 @@ public class Misc
 		return bytes;
 	}
 
+	// Converts an array of longs to an array of bytes
 	public static byte[] getBytes(long[] array)
 	{
 		int[] ints = new int[array.length * 2];
@@ -61,12 +64,6 @@ public class Misc
 
 	public static int[] concatToInteger(byte[] array)
 	{
-		// Padding
-		// if(array.length %4!=0)
-		// {
-		// byte[] tmp = new byte[(int) Math.ceil(array.length*1.0/4)];
-		// }
-
 		int[] ints = new int[array.length / 4];
 
 		for (int x = 0; x < array.length / 4; ++x)
@@ -130,11 +127,13 @@ public class Misc
 		System.exit(errorCode);
 	}
 
+	// Converts a byte to a binary string as Java doesn't have this functionality
 	public static String byteToBinaryString(byte b)
 	{
 		return String.format("%8s", Integer.toBinaryString(Byte.toUnsignedInt(b))).replace(' ', '0');
 	}
 
+	// Converts an array of bytes to a binary string
 	public static String byteToBinaryString(byte[] b)
 	{
 		String s = "";
@@ -145,6 +144,7 @@ public class Misc
 		return s;
 	}
 
+	// Converts a binary String to a array of chars
 	public static byte[] binStringToByteArray(String s)
 	{
 		// Pad to whole bytes
@@ -161,6 +161,19 @@ public class Misc
 			out[x] = (byte) i;
 		}
 
+		return out;
+	}
+
+	// This function will reverse the bits in each byte independently
+	public static byte[] revBytes(byte[] array)
+	{
+		byte[] out = new byte[array.length];
+		
+		for(int x = 0;x<array.length;++x)
+		{
+			out[x] = (byte) (Integer.reverse(array[x])>>>24);
+		}
+		
 		return out;
 	}
 
