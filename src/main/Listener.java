@@ -90,10 +90,13 @@ public class Listener implements WindowListener, MouseListener, ActionListener
 	public void actionPerformed(ActionEvent arg0)
 	{
 		// System.out.println("action Event");
-		JComboBox tmp = (JComboBox) arg0.getSource();
+		JComboBox<String> tmp = (JComboBox<String>) arg0.getSource();
 		String choosed = (String) tmp.getSelectedItem();
 		// System.out.println(choosed);
-		g.comboBox_handler(choosed);
+		if (!(choosed == null))
+		{
+			g.comboBox_handler(choosed);
+		}
 	}
 
 }

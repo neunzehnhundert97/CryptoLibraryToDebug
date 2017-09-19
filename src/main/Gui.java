@@ -3,6 +3,8 @@ package main;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import javax.swing.JButton;
@@ -38,13 +40,20 @@ public class Gui extends JFrame
 	private JLabel options_label;
 	private JLabel categories_label;
 	private JLabel algorithms_label;
+	private JLabel verboseLevel_label;
+	private JLabel input_label;
+	private JLabel output_label;
 
 	private JPanel option_panel;
+	private JPanel textbox_panel;
 
 	private JComboBox<String> algorithm_categories_comboBox;
 	private JComboBox<String> algorithms_comboBox;
 
 	private JSlider verboseLevel_slider;
+	
+	private JTextArea input_textArea;
+	private JTextArea output_textArea;
 
 	private boolean algorithm_categories_firstCall = true;
 	private boolean algorithms_firstCall = true;
@@ -94,7 +103,6 @@ public class Gui extends JFrame
 		System.out.println("combobox_handler");
 		if (algorithm_categories_firstCall)
 		{
-			System.out.println("firstcall");
 			algorithm_categories_firstCall = false;
 			algorithms_comboBox.setVisible(true);
 			algorithms_label.setVisible(true);
@@ -107,9 +115,8 @@ public class Gui extends JFrame
 
 		switch (s)
 		{
+		// Categories:
 		case "Hash":
-			System.out.println("Hash");
-
 			algorithms_comboBox.removeAllItems();
 			for (int i = 0; i < hashAlgorithms.length; i++)
 			{
@@ -117,7 +124,6 @@ public class Gui extends JFrame
 			}
 			break;
 		case "Crypto":
-			System.out.println("Crypto");
 			algorithms_comboBox.removeAllItems();
 			for (int i = 0; i < cryptoAlgorithms.length; i++)
 			{
@@ -125,12 +131,45 @@ public class Gui extends JFrame
 			}
 			break;
 		case "Misc":
-			System.out.println("Misc");
 			algorithms_comboBox.removeAllItems();
 			for (int i = 0; i < miscAlgorithms.length; i++)
 			{
 				algorithms_comboBox.addItem(miscAlgorithms[i]);
 			}
+			break;
+		// Algorithms:
+		//HASHES:
+		case "MD2":
+			algorithms_firstcall_check();
+			break;
+		case "MD5":
+			algorithms_firstcall_check();
+			break;
+		case "SHA-1":
+			algorithms_firstcall_check();
+			break;
+		case "SHA-2":
+			algorithms_firstcall_check();
+			break;
+		case "SHA-3":
+			algorithms_firstcall_check();
+			break;
+		//CRYPTO:
+		case "DES":
+			algorithms_firstcall_check();
+			break;
+		case "AES":
+			algorithms_firstcall_check();
+			break;
+		//MISC:
+		case "Square-and-Multiply":
+			algorithms_firstcall_check();
+			break;
+		case "Double-and-Add":
+			algorithms_firstcall_check();
+			break;
+		case "Extended Euclidean Algorithm":
+			algorithms_firstcall_check();
 			break;
 		}
 	}
@@ -145,16 +184,20 @@ public class Gui extends JFrame
 	private void setup()
 	{
 		this.place_middle(1000, 750);
-
-		option_panel = new JPanel();
-		option_panel.setLayout(new GridLayout(15, 1));
-		option_panel.setPreferredSize(new Dimension(250, 100));
-
+		
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.addWindowListener(listener);
 		this.setLayout(new BorderLayout());
 
-		// setup the options Panel
+		option_panel = new JPanel();
+		option_panel.setLayout(new GridLayout(17, 1));
+		option_panel.setPreferredSize(new Dimension(250, 100));
+		
+		textbox_panel = new JPanel();
+		textbox_panel.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();		
+
+		// SETUP the options Panel
 
 		// headline OPTIONS
 		options_label = new JLabel("Options");
@@ -177,12 +220,16 @@ public class Gui extends JFrame
 		algorithms_label.setVisible(false);
 		option_panel.add(algorithms_label);
 
-		//String[] algorithms = hashAlgorithms;
+		// String[] algorithms = hashAlgorithms;
 		algorithms_comboBox = new JComboBox<String>();
 		algorithms_comboBox.setPreferredSize(new Dimension(400, 100));
 		algorithms_comboBox.addActionListener(listener);
-		algorithms_comboBox.setVisible(true);
+		algorithms_comboBox.setVisible(false);
 		option_panel.add(algorithms_comboBox);
+
+		verboseLevel_label = new JLabel("Verbose Level:");
+		verboseLevel_label.setVisible(false);
+		option_panel.add(verboseLevel_label);
 
 		verboseLevel_slider = new JSlider(JSlider.HORIZONTAL, 0, 4, 0);
 		verboseLevel_slider.setMajorTickSpacing(1);
@@ -193,10 +240,74 @@ public class Gui extends JFrame
 
 		// algorithm_categories_comboBox.removeAllItems();
 		// algorithm_categories_comboBox.addItem("test");
+		
+		// SETUP the textbox Panel
+		
+		input_label = new JLabel("Input:");
+		input_label.setFont(input_label.getFont().deriveFont(18f));
+		input_label.setVisible(true);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 0;
+		textbox_panel.add(input_label, c);
+		
+		input_textArea = new JTextArea();
+		input_textArea.setLineWrap(true);
+		input_textArea.setEditable(true);
+		//input_textArea.setPreferredSize(new Dimension(500, 150));
+		input_textArea.setVisible(true);
+		JScrollPane scroll_input = new JScrollPane(input_textArea);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.ipady = 150;
+		c.ipadx = 500;
+		c.weighty = 0.5;
+		c.gridheight = 1;
+		c.gridx = 0;
+		c.gridy = 1;
+		textbox_panel.add(scroll_input, c);
+		
+		output_label = new JLabel("Output:");
+		output_label.setFont(output_label.getFont().deriveFont(18f));
+		output_label.setVisible(true);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.ipady = 0;
+		c.ipadx = 0;
+		c.gridx = 0;
+		c.gridy = 2;
+		c.weighty = 0;
+		textbox_panel.add(output_label, c);
+		
+		output_textArea = new JTextArea();
+		output_textArea.setLineWrap(true);
+		output_textArea.setEditable(false);
+		//output_textArea.setPreferredSize(new Dimension(500, 450));
+		output_textArea.setVisible(true);
+		JScrollPane scroll_output = new JScrollPane(output_textArea);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weighty = 0.5;
+		c.ipady = 400;
+		c.gridheight = 3;
+		c.gridx = 0;
+		c.gridy = 3;
+		textbox_panel.add(scroll_output, c);
+		
 
 		this.add(option_panel, BorderLayout.LINE_START);
+		this.add(textbox_panel, BorderLayout.CENTER);
+		
 
 		this.setVisible(true);
+	}
+
+	private void algorithms_firstcall_check()
+	{
+		if (algorithms_firstCall)
+		{
+			algorithms_firstCall = false;
+			verboseLevel_label.setVisible(true);
+			verboseLevel_slider.setVisible(true);
+			algorithms_comboBox.removeItem("Please choose a algorithm");
+		}
 	}
 
 }
